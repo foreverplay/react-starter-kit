@@ -1,0 +1,55 @@
+.commondmgroup {
+  min-height: 100px;
+  border-bottom: 1px solid #dfdfdf;
+  margin: 0px 11px;
+  margin-top: 15px;
+}
+.commondmgroup .titlegroup {
+  min-height: 45px;
+  display: -moz-box;
+  display: -webkit-box;
+  display: -o-box;
+}
+.commondmgroup .titlegroup .left {
+  width: 35px;
+  height: 35px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-top-left-radius: 35px;
+  border-top-right-radius: 35px;
+  border-bottom-right-radius: 35px;
+  border-bottom-left-radius: 35px;
+  border-radius: 35px;
+  -webkit-border-radius: 35px;
+  margin-right: 8px
+}
+.commondmgroup .titlegroup .center {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+}
+.commondmgroup .titlegroup .right {
+  width: 70px;
+}
+.commondmgroup .titlegroup .likenumber {
+  height: 20px;
+  width: 45px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 24px;
+  float: left;
+}
+.commondmgroup .titlegroup .likeicon {
+  float: right;
+}
+.commondmgroup .titlegroup .likeicon img {
+  height: 20px;
+  cursor: pointer;
+}
+.commondmgroup .textgroup {
+  min-height: 20px;
+  padding: 17px 75px 17px 0;
+  line-height: 16px;
+}

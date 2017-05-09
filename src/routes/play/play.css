@@ -1,0 +1,225 @@
+/**
+ * React Starter Kit (https://www.reactstarterkit.com/)
+ *
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
+
+@import '../../components/variables.css';
+
+.root {
+	width: 100%;
+    font:  var(--font-family-base);
+	font-size:  var(--font-size-base);
+    padding-bottom: 40px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.container {
+	position: relative;
+	margin: 0 auto;
+	padding: 0;
+	max-width: var(--max-content-width);
+	min-height: 160px;
+}
+.playLoading{
+	position: absolute;
+	width: 100%;
+	top: 45vw;
+}
+.Player{
+	position: relative;
+}
+.infoPannel{
+	position: relative;
+}
+.videoInfoTitle{
+	position: relative;
+    height: 60px;
+    line-height: 60px;
+    margin-left: 15px;
+    font-size: 15px;
+    padding-left: 10px;
+    color: #999;
+    font-size: 14px;
+    font-weight: bold;
+}
+.videoInfoTitle:before{
+    content: "";
+    position: absolute;
+    height: 20px;
+    top: 20px;
+    width: 3px;
+    background: #fab446;
+    left: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+.shareGroup {
+    width: 160px;
+    height: 66px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+.date {
+    margin: 0;
+    position: absolute;
+    right: 13px;
+    overflow: hidden;
+    color: #B2B2B2;
+    text-align: right;
+}
+.title{
+    height: 22px;
+    position: relative;
+    font-weight: bold;
+    font-size: 14px;
+    margin-left: 0;
+    padding-left: 14px;
+    padding-right: 190px;
+}
+.infoIcon {
+    float: left;
+    height: 12px;
+    padding-left: 12px;
+}
+.infoIcon div {
+    display: inline-block;
+    height: 12px;
+    font-size: 12px;
+    line-height: 12px;
+}
+.infoIcon img {
+    height: 12px;
+    margin: 0 5px;
+}
+.infoIcon img:after {
+}
+.introduce {
+    margin-top: 20px;
+    overflow: hidden;
+    text-overflow: clip;
+    word-wrap:break-word;
+    text-align: left;
+    clear: both;
+    margin-left: 14px;
+    margin-right: 14px;
+    padding-top: 10px;
+    padding-bottom: 0.5em;
+    font-size: 14px;
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 15px;
+}
+.sectiongroup{
+    position: relative;
+    height: 90px;
+    margin: 0 1em;
+    margin-top: 20px;
+    border-bottom: 1px solid #dfdfdf;
+    color: #a9a9a9;
+}
+.section{
+    width: 50%;
+    float: left;
+    height: 100%;
+    overflow: hidden;
+}
+.headergroup{
+    display: -moz-box;
+    display: -webkit-box;
+    display: -o-box;
+    -webkit-box-pack: left;
+    -o-box-pack: left;
+    box-pack: left;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: none;
+    margin-top: 10px;
+    color: #000;
+}
+.headicon{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 1em;
+    cursor: pointer;
+}
+.playmvmaker{
+    text-overflow: ellipsis;
+    width: 70px;
+    max-height: 53px;
+    overflow: hidden;
+}
+.inputGroup{
+    height: 40px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 1;
+}
+.dmInput{
+    position: absolute;
+    left: 0;
+    height: 100%;
+    right: 88px;
+    margin-left: 11px;
+    z-index: 1;
+}
+.dmInput input{
+    width: 100%;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    border-radius: 24px;
+    -webkit-border-radius: 24px;
+    background-color: #fff;
+    color: #000;
+    font-size: 12px;
+    margin-top: 6px;
+    height: 24px;
+    padding: 0;
+    padding-left: 12px;
+    outline: none;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+    -webkit-appearance: textfield;
+    -webkit-rtl-ordering: logical;
+    user-select: text;
+    cursor: auto;
+    background-image: none;
+    border: 1px solid #ccc;
+
+}
+.dmInput input:focus{
+    border-color: rgba(255, 102, 0, .5);
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(255,102,0,.075), 0 0 8px rgba(255, 102, 0, .6);
+    box-shadow: inset 0 1px 1px rgba(255,102,0,.075), 0 0 8px rgba(255, 102, 0, .6);
+}
+.dmSend{
+    width: 56px;
+    height: 100%;
+    right: 10px;
+    position: absolute;
+    padding-top: 7px;
+    z-index: 999;
+}
+.dmSend img{
+    max-width: 56px;
+}

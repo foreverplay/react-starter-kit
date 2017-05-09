@@ -1,7 +1,7 @@
 /**
  * React Starter Kit (https://www.reactstarterkit.com/)
  *
- * Copyright © 2014-present Kriasoft, LLC. All rights reserved.
+ * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
@@ -12,43 +12,28 @@
 :root {
   --brand-color: #61dafb;
 }
-
 .root {
-  background: #373277;
-  color: #fff;
+  background: #fff;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 999;
 }
-
 .container {
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 0px;
+  height: 45px;
+  line-height: 39px;
   max-width: var(--max-content-width);
+  border-bottom: 2px solid #fab13b;
 }
-
-.brand {
-  color: color(var(--brand-color) lightness(+10%));
-  text-decoration: none;
-  font-size: 1.75em; /* ~28px */
-}
-
-.brandTxt {
-  margin-left: 10px;
-}
-
-.banner {
-  text-align: center;
-}
-
-.bannerTitle {
-  margin: 0;
-  padding: 10px;
-  font-weight: normal;
-  font-size: 4em;
-  line-height: 1em;
-}
-
-.bannerDesc {
-  padding: 0;
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 1.25em;
-  margin: 0;
+.userHeader {
+  display: inline-block;
+  float: right;
+  height: 27px;
+  width: 27px;
+  margin-top: 9px;
+  background-position: center;
+  background-size: cover;
+    border-radius: 30px;
 }
