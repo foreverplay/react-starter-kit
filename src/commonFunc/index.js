@@ -13,7 +13,7 @@ export function GetQueryString(name) {
 
 // 
 export function getUserToken() {
-    let token = "";
+    let token = "TgFWCL7Isu1PGZQjVf9oQNK4S48oe4";
     if (localStorage != undefined && localStorage.getItem("token") != undefined) {
         token = localStorage.getItem("token");
     }

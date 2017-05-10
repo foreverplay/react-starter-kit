@@ -14,8 +14,21 @@ import Ad from '../../components/Ad/Ad';
 import Nav from '../../components/Nav/Nav';
 import Link from '../../components/Link';
 import history from '../../history';
+import config from '../../config';
 
-
+async function getTopSongs(nowpage) {
+    const resp = await fetch(config.serverHost + 'song/songtop?page=' + nowpage + '', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+    })
+    const data = await resp.json();
+    if (!data)
+        throw new Error('Failed to load the Ad.');
+    return data;
+}
 class Ranking extends React.Component {
     constructor(props) {
         super(props)
@@ -33,7 +46,11 @@ class Ranking extends React.Component {
             }
         }
     }
-    componentDidMount() {}
+    componentDidMount() {
+        getTopSongs(1).then((e) => {
+            console.log(e)
+        })
+    }
     render() {
         return (
             <div className={s.root}>

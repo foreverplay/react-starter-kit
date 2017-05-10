@@ -45,7 +45,7 @@ function formatDm(text, ctime) {
     absDan['mode'] = 1; //决定采取什么mode，比如1是普通滚动等等，详细请看 CommentCoreLibrary文档里面的弹幕类型介绍
     absDan['text'] = text //通过某种渠道获取文字
     absDan['color'] = 0xffffff; //获取颜色（为一个数字）
-    absDan['size'] = 25; // 想办法获取字号
+    absDan['size'] = 12; // 想办法获取字号
     absDan['stime'] = ctime;
     return absDan
 }
@@ -63,6 +63,7 @@ class Player extends React.Component {
         }
     }
     componentDidMount() {
+        console.log("componentDidMount")
         this.setState({
             userToken: getUserToken()
         })
@@ -113,26 +114,20 @@ class Player extends React.Component {
             }
             return
         }
-        if (this.state.userToken != "" && !isNode) {
-            if (GetQueryString("id") != "") {
-                if (nextProps.videoInfo != "" && nextProps.videoUrl != "") {
-                    let e = nextProps.videoInfo
-                    let imgs = customImgArray(e.cover_cover, e.picturemovies)
-                    This.IMGplayer.init(imgs, e.cover_addr, e.cover_xmlpath, function(argument) {
-                        This.loadFinsh = true
-                    })
-                }
+        if (GetQueryString("id") != "") {
+            if (nextProps.videoInfo != "" && nextProps.videoUrl != "") {
+                let e = nextProps.videoInfo
+                let imgs = customImgArray(e.cover_cover, e.picturemovies)
+                This.IMGplayer.init(imgs, e.cover_addr, e.cover_xmlpath, function(argument) {
+                    This.loadFinsh = true
+                })
             }
         }
     }
     componentWillUnmount() {
         try {
-            this.audioSrc.src = "";
-        } catch ( e ) {
-            console.log(e)
-        }
-        try {
-            this.audio.pause()
+            this.IMGplayer.offLoad()
+            this.IMGplayer.audio.pause();
         } catch ( e ) {
             console.log(e)
         }
@@ -144,9 +139,6 @@ class Player extends React.Component {
                     <div id="imgsContainer" className={s.imgsContainer} />
                     <div id="IMGplayerContainer" className={s.IMGplayerContainer} />
                 </div>
-                <audio id="IMGplayerAudio">
-                <source id="IMGplayerAudioSrc" type="audio/mp3" />
-                </audio>
             </div>
         );
     }
