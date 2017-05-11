@@ -71,6 +71,15 @@ html {
     background-size: cover;
     background-repeat: no-repeat;
 }
+.TopPvImg{
+        position: relative;
+    height: 140px;
+    width: 140px;
+    background: rgba(250, 177, 59, 0.3) no-repeat center;
+    background-size: cover;
+    cursor: pointer;
+    border-radius: 10px;
+}
 
 /*rankingnav*/
 .navroot {
@@ -78,4 +87,13 @@ html {
     border-bottom: none;
     justify-content: space-around;
     top: 0;
+}
+
+.TopUserOne{
+    height: 250px;
+    width: 100%;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }

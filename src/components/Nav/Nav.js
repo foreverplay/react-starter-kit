@@ -7,21 +7,35 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Nav.css';
 import hotImg from './hot.png';
 import jingxuanImg from './jingxuan.png';
 import newImg from './new.png';
+import history from '../../history';
 // import { connect } from 'react-redux';
 // import logoUrl from './logo.png';
 class Nav extends React.Component {
     static propTypes = {
         index: PropTypes.number.isRequired,
-        onChosen: PropTypes.func.isRequired,
     }
     constructor(props) {
         super(props);
+        this.onChosen = (e) => {
+            switch (e) {
+            case 0:
+                history.push("/")
+                break;
+            case 1:
+                history.push("/recent")
+                break;
+            case 2:
+                history.push("/ranking")
+                break;
+            }
+        }
     }
     componentDidMount() {}
     componentWillUnmount() {}
@@ -57,13 +71,13 @@ class Nav extends React.Component {
             <div className={s.NavPlaceholder}></div>
               <div className={s.homeNav} key="hotManu">
               <div className={s.homeNavItem}  onClick={() => {
-                this.props.onChosen(0)
+                this.onChosen(0)
             }}  style={style0}><img src={jingxuanImg}/> 精    选</div>
               <div className={s.homeNavItem} onClick={() => {
-                this.props.onChosen(1)
+                this.onChosen(1)
             }} style={style1}><img src={newImg}/> 最    新</div>
               <div className={s.homeNavItem} onClick={() => {
-                this.props.onChosen(2)
+                this.onChosen(2)
             }}  style={style2}><img src={hotImg}/> 热门榜</div>
               </div>
             </div>

@@ -8,6 +8,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Recent from './Recent';
 import fetch from '../../core/fetch';
 import Layout from '../../components/Layout';

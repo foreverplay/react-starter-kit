@@ -7,47 +7,48 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function plusReady() {
-  plus.key.addEventListener("backbutton", function() {
-    history.go(-1)
-  })
+    plus.key.addEventListener("backbutton", function() {
+        history.go(-1)
+    })
 }
 class Ad extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      url:null,
+    constructor(props) {
+        super(props);
+        this.state = {
+            url: null,
+        }
     }
-  }
-  componentDidMount() {
-    let gd = localStorage.getItem("_globledata_adurl")
-    this.setState({
-      url:"http://"+gd,
-    })
-    console.log(gd)
+    componentDidMount() {
+        let gd = localStorage.getItem("_globledata_adurl")
+        this.setState({
+            url: "http://" + gd,
+        })
+        console.log(gd)
 
-    if(window.plus) {
-      plusReady();
-    } else {
-      document.addEventListener("plusready", plusReady, false);
+        if (window.plus) {
+            plusReady();
+        } else {
+            document.addEventListener("plusready", plusReady, false);
+        }
     }
-  }
-  render() {  
-  	const style = {
-  		width:"100%",
-  		height:"100%",
-  		position:"absolute",
-  		overflow:"auto",
-      border: "none",
-  	}
-    return (
-      <div>
+    render() {
+        const style = {
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            overflow: "auto",
+            border: "none",
+        }
+        return (
+            <div>
         <iframe src={this.state.url} style={style}  />
       </div>
-    );
-  }
+        );
+    }
 }
 
 export default Ad;

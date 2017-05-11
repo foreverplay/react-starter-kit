@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './list.sass';
 import Link from '../Link';
@@ -35,9 +36,9 @@ class List extends React.Component {
                 return
             }
             // if(v.length===0){
-            // 	This.lefttime = 0
-            // 	This.forceUpdate()
-            // 	return
+            //  This.lefttime = 0
+            //  This.forceUpdate()
+            //  return
             // }
             This.setState({
                 doms: This.state.doms.concat(v)
@@ -72,15 +73,15 @@ class List extends React.Component {
         for ( let value of this.state.doms ) {
             let random = parseInt(Math.random() * 1000000)
             doms.push(<div key={"newSong" + value.pk}>
-				<Link to={"/play?id=" + value.pk}>
-			      <img height="50" src={config.serverHost + value.cover_cover}/>
-			    </Link>
-				<br/>{value.cover_name}</div>)
+                <Link to={"/play?id=" + value.pk}>
+                  <img height="50" src={config.serverHost + value.cover_cover}/>
+                </Link>
+                <br/>{value.cover_name}</div>)
         }
         return (
             <div>
-				{doms}
-			</div>
+                {doms}
+            </div>
         );
     }
 }

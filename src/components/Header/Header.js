@@ -17,38 +17,38 @@ import logoUrl from './logo.png';
 import userUrl from './yanxi.png';
 
 class Header extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.imgUrl = userUrl;
-    this.path = "/login";
-  }
-  componentDidMount() {
-  }
+    constructor(props, context) {
+        super(props, context);
+        this.imgUrl = userUrl;
+        this.path = "/login";
+    }
+    componentDidMount() {}
 
-  componentWillUnmount() {
-  }
-  render() {
-    // const loginInfo = this.props.store.user.Login
-    // if (loginInfo) {
-    //   this.imgUrl = loginInfo
-    //   this.path = "/user"
-    // }
-    return (
-    <div className={s.root}>
+    componentWillUnmount() {}
+    render() {
+        // const loginInfo = this.props.store.user.Login
+        // if (loginInfo) {
+        //   this.imgUrl = loginInfo
+        //   this.path = "/user"
+        // }
+        return (
+            <div className={s.root}>
       <div className={s.container}>
         <Link className={s.brand} to="/">
           <img src={logoUrl} height="27" alt="嫣汐LOGO"/>
         </Link>
         <Link className={s.brand} to={this.path}>
-          <div className={s.userHeader} style={{backgroundImage:"url("+this.imgUrl+")"}}></div>
+          <div className={s.userHeader} style={{
+                backgroundImage: "url(" + this.imgUrl + ")"
+            }}></div>
         </Link>
       </div>
     </div>
-    );
-  }
+        );
+    }
 }
 const mapState = (state) => ({
-  store:state,
+    store: state,
 })
 
 export default connect(mapState, "")(withStyles(s)(Header));
