@@ -13,6 +13,7 @@ html {
 }
 .root {
     width: 100%;
+    overflow: hidden;
 }
 .container {
     margin: 0 auto;
@@ -38,62 +39,23 @@ html {
     margin: 0 15px;
     border-bottom: 2px solid #ffcb1e;
 }
-.singEntry {
-    position: fixed;
-    width: 0;
-    right: 0;
-    bottom: 15px;
-    width: 80px;
-    height: 45px;
-    line-height: 45px;
-    text-align: right;
-    padding-right: 5px;
-    font-size: 14px;
-    color: #fff;
-    border-top-left-radius: 45px;
-    border-bottom-left-radius: 45px;
-    background-color: #fbb03b;
-}
-@media only screen and (min-width:768px) {
-    .singEntry {
-        position: fixed;
-        right: 50%;
-        margin-right: -384px;
-    }
-}
-
-/*topPv*/
-.TopPvOne {
-    height: 250px;
-    width: 100%;
-    position: relative;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-.TopPvImg{
-        position: relative;
-    height: 140px;
-    width: 140px;
-    background: rgba(250, 177, 59, 0.3) no-repeat center;
-    background-size: cover;
-    cursor: pointer;
-    border-radius: 10px;
-}
-
 /*rankingnav*/
 .navroot {
     display: flex;
     border-bottom: none;
     justify-content: space-around;
     top: 0;
+    background-color: transparent;
+    position: relative;
+    height: 40px;
+    width: 100%;
+    color: #A1A199;
+    z-index: 10;
+    margin-bottom: 20px;
 }
 
-.TopUserOne{
-    height: 250px;
-    width: 100%;
-    position: relative;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+.navitem{
+    padding: 0 20px;
+    line-height: 40px;
+    cursor: pointer;
 }

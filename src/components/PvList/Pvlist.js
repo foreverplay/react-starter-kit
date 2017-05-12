@@ -99,7 +99,7 @@ class PvList extends React.Component {
     render() {
         return (
             <div>
-            <DropToDo loadByPage={(e) => {
+           <DropToDo loadByPage={(e) => {
                 this.loadPvByPage(e)
             }} loadFinsh={this.state.loadFinsh} refresh={this.state.finshRender}>
                 <List store={this.state.pvArray} type={this.props.type} finshRender={() => {

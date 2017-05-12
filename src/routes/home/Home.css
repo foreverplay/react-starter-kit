@@ -31,10 +31,10 @@ html{
     width: 100px;
     z-index: 1200;
 }
-@media only screen and (min-width: 768px){
-    .singEntry {
+@media (--bp1) {
+  .singEntry {
         position: fixed;
         right: 50%;
-        margin-right: -384px;
+        transform: translateX(var(--transform-width));
     }
 }
