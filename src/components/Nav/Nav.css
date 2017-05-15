@@ -21,7 +21,7 @@
 }
 .NavPlaceholder{
   position: relative;
-  height: 35px;
+  height: 40px;
   width: 100%;
   opacity: 0;
 }
@@ -34,6 +34,7 @@
   line-height: 35px;
   display: flex;
   justify-content: space-around;
+  border-bottom:5px solid #f5f5f5;
 }
 .homeNavItem {
   flex-grow: 1;

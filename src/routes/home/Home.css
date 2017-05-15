@@ -6,25 +6,23 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-
 @import '../../components/variables.css';
 
-html{
-	background-color: var(--common-bg-color);
+html {
+    background-color: var(--common-bg-color);
+    font-family: var(--font-family-base);
 }
 .root {
-	width: 100%;
+    width: 100%;
 }
-
 .container {
-	margin: 0 auto;
-	padding: 0;
-	max-width: var(--max-content-width);
-	min-height: 160px;
+    margin: 0 auto;
+    padding: 0;
+    max-width: var(--max-content-width);
+    min-height: 160px;
 }
-
-.singEntry{
-	position: fixed;
+.singEntry {
+    position: fixed;
     right: 0;
     bottom: 15px;
     height: 45px;
@@ -32,7 +30,7 @@ html{
     z-index: 1200;
 }
 @media (--bp1) {
-  .singEntry {
+    .singEntry {
         position: fixed;
         right: 50%;
         transform: translateX(var(--transform-width));

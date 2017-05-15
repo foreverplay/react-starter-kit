@@ -7,7 +7,26 @@ import DropToDo from '../../components/DropToDo/DropToDo';
 import Link from '../../components/Link';
 import history from '../../history';
 import config from '../../config';
+import topuserbgImg from "./topuserbg.png";
+import oneImg from "./one.png";
+import bgtopImg from "../../../public/bgtop.png";
+import usertopbg2Img from "./usertopbg2.png";
+import userhotsImg from "./userhots.png";
+import mvtop1Img from "./mvtop1.png";
+import mvtop2Img from "./mvtop2.png";
+import mvtop3Img from "./mvtop3.png";
 
+
+let mvtopArray = ["", {
+    url: mvtop1Img,
+    color: "#FCD23E"
+}, {
+    url: mvtop2Img,
+    color: "#BFC8D1"
+}, {
+    url: mvtop3Img,
+    color: "#915658"
+}];
 async function getTopUsers(nowpage) {
     const resp = await fetch(config.serverHost + 'song/usertop?page=' + nowpage + '', {
         method: 'GET',
@@ -58,39 +77,81 @@ class TopUsers extends React.Component {
         let tempdom = [];
         let TopUserDom = [];
         if (this.state.TopPvsData.length != 0) {
-            TopUserDom.push(<div key="TopUserOne" className={s.TopUserOne}>
-                <div className={s.TopPvImg} style={{
-                backgroundImage: "url(" + config.serverHost + this.state.TopPvsData[0].user.headimg + ")"
-            }}></div>
-                <div>{this.state.TopPvsData[0].user.realname}</div>
-                </div>)
-            for ( let item of this.state.TopPvsData ) {
-                tempdom.push(<div key={item.pk}>
-                    <Link to="/play?id={item.pk}"><div className={s.TopPvImg} style={{
-                    backgroundImage: "url(" + config.serverHost + item.user.headimg + ")"
-                }}></div></Link>
-                    <div className={s.TopPvInfo}>
-                        <div>{item.user.realname}</div>
-                        <div>{item.score}</div>
+            TopUserDom.push(
+                <div key="TopUserOne" className={s.TopUserOne} style={{
+                    backgroundImage: "url(" + topuserbgImg + ")"
+                }}>
+                    <div className={s.bgimg}  style={{
+                    backgroundImage: "url(" + usertopbg2Img + ")"
+                }}>
                     </div>
+                    <div className={s.TopUserImg}  style={{
+                    backgroundImage: "url(" + config.serverHost + this.state.TopPvsData[0].user.headimg + ")"
+                }}>
+                        <div className={s.TopUserImgbefore} style={{
+                    backgroundImage: "url(" + oneImg + ")"
+                }}>
+                        </div>
+                    </div>
+                    <div className={s.topusername}>{this.state.TopPvsData[0].user.realname}占领了这里</div>
+                </div>
+            )
+            let tempno = 1;
+            for ( let item of this.state.TopPvsData ) {
+                var tempRanking = [];
+                var tempUserImg = [];
+                if (tempno <= 3) {
+                    tempRanking.push(<div className={s.Ranking} key={"ranking" + tempno} style={{
+                        color: mvtopArray[tempno].color
+                    }}><img src={mvtopArray[tempno].url}/>{tempno}</div>)
+                    tempUserImg.push(<div className={s.userImg} key={"userImg" + tempno} style={{
+                        backgroundImage: "url(" + config.serverHost + item.user.headimg + ")",
+                        border: "2px solid " + mvtopArray[tempno].color + "",
+                    }}>
+                        <div className={s.userImgbefore} style={{
+                        backgroundImage: "url(" + mvtopArray[tempno].url + ")"
+                    }}></div>
+                        </div>)
+                } else {
+                    tempRanking.push(<div className={s.Ranking} key={"ranking" + tempno}>TOP.{tempno}</div>)
+                    tempUserImg.push(<div className={s.userImg} key={"userImg" + tempno} style={{
+                        backgroundImage: "url(" + config.serverHost + item.user.headimg + ")"
+                    }}>
+                        </div>)
+                }
+                tempdom.push(<div key={item.pk} className={s.group}>
+                    <Link to="/play?id={item.pk}">
+                        {tempUserImg}
+                    </Link>
+                    <div className={s.userInfoGroup}>
+                        <div className={s.name}>{item.user.realname}</div>
+                        <div className={s.userScore}><img src={userhotsImg}/>{item.score}</div>
+                    </div>
+                        {tempRanking}
                     </div>)
+                tempno++;
             }
         }
         return (
             <div className={s.TopUser}>
-            <div className={s.TopUserDomContainer}>
-                {TopUserDom}
-            </div>
-             <RankingNav index={1} onChosen={(e) => {
+                <div className={s.TopUserDomContainer}>
+                    {TopUserDom}
+                </div>
+                <div className={s.TopUserList} style={{
+                backgroundImage: "url(" + bgtopImg + ")"
+            }}>
+                     <RankingNav index={1} onChosen={(e) => {
                 this.props.onChosen(e)
             }}/>
-             <DropToDo loadByPage={(e) => {
+                    <div className={s.rule}>人气值与播放量+弹幕人数+喜欢数等相关</div>
+                     <DropToDo loadByPage={(e) => {
                 this.loadTopUserByPage(e)
             }} loadFinsh={this.state.loadFinsh} refresh={this.state.finshRender}>
                         <div className={s.TopPvList} key="TopPvList">
                             {tempdom}
                         </div>
-                        </DropToDo>
+                    </DropToDo>
+                </div>
             </div>
         );
     }
