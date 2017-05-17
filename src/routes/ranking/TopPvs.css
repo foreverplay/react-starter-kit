@@ -78,12 +78,12 @@
 .topchart {
     position: absolute;
     z-index: 20;
-    min-width: 50px;
+    min-width: 55px;
     height: 30px;
     line-height: 30px;
     top: 10px;
     left: 2px;
-    padding-left: 35px;
+    padding-left: 36px;
     padding-right: 5px;
     box-sizing: border-box;
     text-align: left;
@@ -93,6 +93,21 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+.topchart img {
+    position: absolute;
+    z-index: 40;
+    left: 4px;
+    top: 4px;
+    width: 25px;
+}
+.topchart span {
+    position: absolute;
+    z-index: 40;
+    left: 5px;
+    line-height: 30px;
+    width: 25px;
+    font-size: 14px;
 }
 .mvimg {
     position: relative;
@@ -163,7 +178,7 @@
 .title {
     padding-top: 12px;
     font-size: 14px;
-    line-height: 15px;
+    line-height: 16px;
     min-height: 30px;
     font-weight: bold;
     overflow: hidden;
@@ -224,4 +239,5 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #A1A199;
+    box-sizing: border-box;
 }

@@ -13,19 +13,38 @@
   --brand-color: #61dafb;
 }
 .root {
-  background: #fff;
+  position: relative;
   width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 999;
+  max-width: var(--max-content-width);
+}
+.block{
+  position: relative;
+  height: 45px;
+  width: 100%;
 }
 .container {
-  margin: 0 auto;
-  padding: 0px;
+  position: fixed;
+  z-index: 999;
+  box-sizing: border-box;
+  padding: 0 8px;
+  background: #fff;
+  width: 100%;
+  top:0;
   height: 45px;
   line-height: 39px;
   max-width: var(--max-content-width);
-  border-bottom: 2px solid #fab13b;
+  border-bottom: 2px solid #cccccc;
+}
+@media (--bp1) {
+    .container {
+        position: fixed;
+        right: 50%;
+        transform: translateX(var(--transform-width));
+    }
+}
+.container img{
+    height: 35px;
+    margin-top: 8px;
 }
 .userHeader {
   display: inline-block;

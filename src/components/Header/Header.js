@@ -13,7 +13,7 @@ import s from './Header.css';
 import Link from '../Link';
 import Navigation from '../Navigation';
 import { connect } from 'react-redux';
-import logoUrl from './logo.png';
+import logoUrl from './newlogo.png';
 import userUrl from './yanxi.png';
 
 class Header extends React.Component {
@@ -33,6 +33,7 @@ class Header extends React.Component {
         // }
         return (
             <div className={s.root}>
+            <div className={s.block}></div>
       <div className={s.container}>
         <Link className={s.brand} to="/">
           <img src={logoUrl} height="27" alt="嫣汐LOGO"/>
