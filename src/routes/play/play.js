@@ -25,8 +25,8 @@ import Share from '../../components/Share';
 import commentsImg from "./comments.png";
 import playtimesImg from "./playtimes.png";
 import sendImg from './send.png'
-
-
+import sendbgcImg from './sendbgc.png'
+import sendbglImg from './sendbgl.png'
 import yximg from "../../../public/tile.png"
 
 
@@ -339,6 +339,18 @@ class Play extends React.Component {
               <Player className={s.Player} videoInfo={this.state.videoInfo} videoUrl={this.state.videoUrl} transferData={this.state.transferData} sendDmToServe={(audioTime) => {
                 fetchToSendDm(this.state.videoInfo.pk, getUserToken(), this.state.transferData, audioTime)
             }}></Player>
+                  <div className={s.inputGroup} style={{
+                backgroundImage: "url(" + sendbgcImg + ")"
+            }}>
+                <div className={s.inputGroupBefore} style={{
+                backgroundImage: "url(" + sendbglImg + ")"
+            }}>
+                </div>
+                    <div className={s.dmInput} ><input type="text" ref={(input) => {
+                this.textInput = input
+            }} name="" value={this.state.inputValue} onChange={this.handleInputChange} placeholder="说点什么" /></div>
+                    <img className={s.dmSend} onClick={this.sendDm} src={sendImg}/>
+                  </div>
               <div className={s.infoPannel}>
                 <div className={s.videoInfoTitle}>
                   视频信息
@@ -403,12 +415,6 @@ class Play extends React.Component {
             }} loadFinsh={this.state.loadFinsh} refresh={this.state.finshRender}>
                       {newdms}
                   </DropToDo>
-                  </div>
-                  <div className={s.inputGroup}>
-                    <div className={s.dmInput} ><input type="text" ref={(input) => {
-                this.textInput = input
-            }} name="" value={this.state.inputValue} onChange={this.handleInputChange} placeholder="说点什么" /></div>
-                    <div className={s.dmSend} onClick={this.sendDm}><img src={sendImg}/></div>
                   </div>
               </div>
             </div>

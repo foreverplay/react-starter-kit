@@ -119,7 +119,7 @@ class Player extends React.Component {
             if (nextProps.videoInfo != "" && nextProps.videoUrl != "") {
                 let e = nextProps.videoInfo
                 let imgs = customImgArray(e.cover_cover, e.picturemovies)
-                This.IMGplayer.init(imgs, e.cover_addr, e.cover_xmlpath, function(argument) {
+                This.IMGplayer.init(imgs, e.cover_addr, e.cover_xmlpath + '?' + Math.random(), function(argument) {
                     This.loadFinsh = true
                 })
             }
