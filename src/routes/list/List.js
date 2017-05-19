@@ -19,11 +19,12 @@ import Link from '../../components/Link/Link';
 import { setTemplateID } from '../../actions/runtime';
 import { getUserToken } from '../../commonFunc/';
 import history from '../../history';
+import chosebtnImg from "./chosebtn.png";
 
 
 async function getPvList(page, token) {
     let t = (token) ? token : "";
-    const resp = await fetch(config.serverHost + 'makesong/mvselect?cur_page=' + page, {
+    const resp = await fetch(config.serverHost + 'makesong/mvselect?page=' + page, {
         method: 'get',
         headers: {
             'Authorization': 'Bearer ' + t,
@@ -67,15 +68,24 @@ class List extends React.Component {
     }
     componentDidMount() {
         this.loadListByPage(this.showpage)
-
     }
     render() {
-        console.log(this.ListDom)
         let tempdoms = []
         for ( let item of this.ListDom ) {
-            tempdoms.push(<div key={item.pk}><img className={s.img} src={config.serverHost + item.mv_cover}/> {item.mv_name}<Link to={"/lyrics?id=" + item.pk} onClick={() => {
+            tempdoms.push(<div key={item.pk} className={s.group}><div className={s.img} style={{
+                backgroundImage: "url(" + config.serverHost + item.mv_cover + ")"
+            }}></div>
+                <div className={s.listinfo}>
+                    <div className={s.songtitle}>{item.mv_name}</div>
+                    <div className={s.singer}>演唱:  嫣汐</div>
+                        <Link to={"/lyrics?id=" + item.pk} onClick={() => {
                 this.saveTemplateId(item.pk)
-            }}><button>选用</button></Link></div>)
+            }}>
+                            <img src={chosebtnImg}/>
+                        </Link>
+                    </div>
+                </div>
+            )
         }
         return (
             <div className={s.root}>

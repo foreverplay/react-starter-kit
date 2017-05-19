@@ -20,6 +20,10 @@ import { GetQueryString, getUserToken } from '../../commonFunc/';
 import Loader from '../../components/Loading';
 import history from '../../history';
 
+import playImg from "./play.png";
+import playingImg from "./playing.png";
+import resetImg from "./reset-lyric.png";
+
 
 
 async function getInitLyrics(id, token) {
@@ -77,6 +81,8 @@ class Lyrics extends React.Component {
             } catch ( e ) {}
         }
         this.handleListen = (nowblock) => {
+            console.log(nowblock)
+            return
             if (this.listenState.block != undefined && this.listenState.block == nowblock) {
                 if (this.listenState.playing) { // playing
                     this.refs.audio.pause()
@@ -220,6 +226,8 @@ class Lyrics extends React.Component {
         // if (typeof this.props.store.runtime.templateId != undefined && this.props.store.runtime.templateId != undefined) {
         // }
         let tpdom = [];
+        let tpmldom = [];
+        let tprmdom = [];
         if (this.state.dom.length != 0) {
             let tempBlock = 1;
             let startBlock = true;
@@ -228,7 +236,12 @@ class Lyrics extends React.Component {
                 switch (item.type) {
                 case "mainTitle":
                     tpdom.push(
-                        <div key={"input" + no}><input placeholder={item.data} order={no} value={item.data} onChange={this.handleInputChange}/></div>
+                        <div className={s.container} key={"grouptitle"}>
+                            <div className={s.title}>歌名
+                             <img src={resetImg} className={s.resetImg} onClick={this.InitLyrics}/>
+                            </div>
+                            <div key={"input" + no}><input className={s.titleinput} placeholder={item.data} order={no} value={item.data} onChange={this.handleInputChange}/></div>
+                        </div>
                     )
                     break;
                 case "mainLyrics":
@@ -237,16 +250,28 @@ class Lyrics extends React.Component {
                         tempBlock = item.block
                     }
                     if (startBlock) {
+                        if (tpmldom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tpmldom}</div>)
+                            tpmldom = []
+                        }
+                        if (tprmdom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tprmdom}</div>)
+                            tprmdom = []
+                        }
                         let t = tempBlock
-                        tpdom.push(
-                            <div key={"block" + tempBlock}>mainLyrics <button onClick={() => {
+                        tpmldom.push(
+                            <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>主歌歌词
+                            <img src={playImg} className={s.trylisten}
+                            onClick={() => {
                                 this.handleListen(t)
-                            }}>listen</button></div>
+                            }}
+                            />
+                            </div>
                         )
                         startBlock = false
                     }
-                    tpdom.push(
-                        <div key={"input" + no}><input placeholder={item.data} order={no} value={item.data} onChange={this.handleInputChange}/></div>
+                    tpmldom.push(
+                        <div key={"input" + no} className={s.singlegroup}><input placeholder={item.data} className={s.textinput} order={no} value={item.data} onChange={this.handleInputChange}/></div>
                     )
 
                     break;
@@ -256,32 +281,52 @@ class Lyrics extends React.Component {
                         tempBlock = item.block
                     }
                     if (startBlock) {
+                        if (tpmldom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tpmldom}</div>)
+                            tpmldom = []
+                        }
+                        if (tprmdom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tprmdom}</div>)
+                            tprmdom = []
+                        }
                         let t = tempBlock
-                        tpdom.push(
-                            <div key={"block" + tempBlock}>refrainLyrics <button onClick={() => {
+                        tprmdom.push(
+                            <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>副歌歌词 
+                            <img src={playImg} className={s.trylisten}
+                            onClick={() => {
                                 this.handleListen(t)
-                            }}>listen</button></div>
+                            }}
+                            />
+                            </div>
                         )
                         startBlock = false
                     }
-                    tpdom.push(
-                        <div key={"input" + no}><input placeholder={item.data} order={no} value={item.data} onChange={this.handleInputChange}/></div>
+                    tprmdom.push(
+                        <div key={"input" + no} className={s.singlegroup}><input placeholder={item.data} className={s.textinput} order={no} value={item.data} onChange={this.handleInputChange}/></div>
                     )
                     break;
                 }
                 no++
             }
+            if (tpmldom.length != 0) {
+                tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock + 1}>{tpmldom}</div>)
+                tpmldom = []
+            }
+            if (tprmdom.length != 0) {
+                tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock + 1}>{tprmdom}</div>)
+                tprmdom = []
+            }
+
         }
         return (
             <div className={s.root}>
-                <button onClick={this.InitLyrics}>初始化</button>
-                <audio controls ref="audio">
-                <source type='audio/mpeg' src=""/>
-                </audio>
                 <div className={s.loader} style={{
                 display: this.state.displayLoader
             }}><Loader color="#ff6600"/></div>
                 {tpdom}
+                <audio controls ref="audio">
+                <source type='audio/mpeg' src=""/>
+                </audio>
                 <button onClick={this.handleGoPrevious}>上一步</button>
                 <button onClick={this.handleGoNext}>下一步</button>
             </div>

@@ -14,6 +14,7 @@ import fetch from '../../core/fetch';
 import Player from '../../components/Player/Player';
 import CommentUnit from '../../components/CommentUnit';
 import DropToDo from '../../components/DropToDo/DropToDo';
+import Sing from '../../components/Sing/Sing';
 
 import config from '../../config';
 import { GetQueryString, getUserToken } from '../../commonFunc/';
@@ -288,8 +289,12 @@ class Play extends React.Component {
                 getVideoUrl(GetQueryString("id")).then((e) => {
                     if (e.cover_addr != null && e.cover_addr != "") {
                         This.state.videoUrl = e.cover_addr
-                        This.state.videoInfo.cover_xmlpath = e.cover_xmlpath
-                        This.state.videoInfo.local_xmlpath = e.local_xmlpath
+                        if (e.local_xmlpath != "" && e.local_xmlpath != null && e.local_xmlpath != undefined) {
+                            This.state.videoInfo.cover_xmlpath = config.serverHost + e.local_xmlpath
+                        } else {
+                            This.state.videoInfo.cover_xmlpath = e.cover_xmlpath
+                        }
+                        // This.state.videoInfo.local_xmlpath = e.local_xmlpath
                         This.state.videoInfo.cover_addr = e.cover_addr
                         This.refs.playLoading.style.display = "none"
                         clearInterval(This.timeOut)
@@ -416,6 +421,9 @@ class Play extends React.Component {
                       {newdms}
                   </DropToDo>
                   </div>
+              </div>
+              <div className={s.singEntry}>
+                <Sing/>
               </div>
             </div>
           </div>

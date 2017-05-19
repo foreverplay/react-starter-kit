@@ -88,7 +88,7 @@ class Player extends React.Component {
                     //     this.loadFinsh = true
                     // })
 
-                    IMGplayer.init(imgs, e.cover_addr + '?' + Math.random(), e.cover_xmlpath + '?' + Math.random(), function(argument) {
+                    this.IMGplayer.init(imgs, e.cover_addr + '?' + Math.random(), e.cover_xmlpath + '?' + Math.random(), function(argument) {
                         // console.log('canplay')
                         This.loadFinsh = true
                     // IMGplayer.onPlay = function() {
@@ -106,12 +106,12 @@ class Player extends React.Component {
         let This = this
         if (This.loadFinsh) {
             if (nextProps.transferData != "") {
-                if (This.audio.currentTime == 0) {
+                if (This.IMGplayer.audio.seek() == 0) {
                     alert("请先播放!")
                     return
                 }
-                This.IMGplayer.CM.send(formatDm(nextProps.transferData, This.audio.currentTime))
-                nextProps.sendDmToServe(This.audio.currentTime)
+                This.IMGplayer.CM.send(formatDm(nextProps.transferData, This.IMGplayer.audio.seek()))
+                nextProps.sendDmToServe(This.IMGplayer.audio.seek())
             }
             return
         }
