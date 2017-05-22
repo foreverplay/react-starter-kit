@@ -74,6 +74,7 @@ html {
     padding: 10px;
     box-sizing: border-box;
     padding-right: 14px;
+
 }
 .lyricsblock .singlegroup:last-child:before{
     content: "";

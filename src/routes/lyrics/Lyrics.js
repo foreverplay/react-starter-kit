@@ -66,6 +66,7 @@ class Lyrics extends React.Component {
         this.state = {
             dom: [],
             displayLoader: "none",
+            trylistenIndex: 0,
         }
         this.token = "";
         this.handleInputChange = (e) => {
@@ -82,10 +83,14 @@ class Lyrics extends React.Component {
         }
         this.handleListen = (nowblock) => {
             console.log(nowblock)
-            return
+
+            // this.forceUpdate()
             if (this.listenState.block != undefined && this.listenState.block == nowblock) {
                 if (this.listenState.playing) { // playing
                     this.refs.audio.pause()
+                    this.setState({
+                        trylistenIndex: 0
+                    })
                     this.listenState.playing = false
                     if (this.listenState.tempdom.length != 0) {
                         // chack temp lyrics
@@ -98,6 +103,9 @@ class Lyrics extends React.Component {
                         // chack temp lyrics
                         if (!this.lyricsIsDiff(this.listenState.tempdom, this.state.dom, nowblock)) { //same
                             this.refs.audio.play()
+                            this.setState({
+                                trylistenIndex: nowblock
+                            })
                             this.listenState.playing = true
                             return
                         }
@@ -122,14 +130,22 @@ class Lyrics extends React.Component {
                 this.setState({
                     displayLoader: "none",
                 })
-                if (JSON.parse(e).errcode) {
-                    alert("build error 60011")
-                    return
+                let url = "";
+                if (typeof (e) !== "object") {
+                    if (JSON.parse(e).errcode) {
+                        alert("build error 60011")
+                        return
+                    }
+                    url = JSON.parse(e).url_mp3
+                } else {
+                    url = e.url_mp3
                 }
-                let url = JSON.parse(e).url_mp3
                 this.refs.audio.src = url
                 this.refs.audio.load()
                 this.refs.audio.play()
+                this.setState({
+                    trylistenIndex: nowblock
+                })
                 this.listenState.playing = true
                 this.listenState.block = parseInt(nowblock)
                 this.listenState.tempdom = JSON.parse(JSON.stringify(this.state.dom))
@@ -259,9 +275,13 @@ class Lyrics extends React.Component {
                             tprmdom = []
                         }
                         let t = tempBlock
+                        let tempImgSrc = playImg
+                        if (this.state.trylistenIndex != 0 && t == this.state.trylistenIndex) {
+                            tempImgSrc = playingImg
+                        }
                         tpmldom.push(
                             <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>主歌歌词
-                            <img src={playImg} className={s.trylisten}
+                            <img src={tempImgSrc} className={s.trylisten}
                             onClick={() => {
                                 this.handleListen(t)
                             }}
@@ -290,9 +310,13 @@ class Lyrics extends React.Component {
                             tprmdom = []
                         }
                         let t = tempBlock
+                        let tempImgSrc = playImg
+                        if (this.state.trylistenIndex != 0 && t == this.state.trylistenIndex) {
+                            tempImgSrc = playingImg
+                        }
                         tprmdom.push(
                             <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>副歌歌词 
-                            <img src={playImg} className={s.trylisten}
+                            <img src={tempImgSrc} className={s.trylisten}
                             onClick={() => {
                                 this.handleListen(t)
                             }}
