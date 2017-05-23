@@ -293,7 +293,10 @@ class Pv extends React.Component {
                 oldpk = localStorage.getItem("histroyPvPk")
             }
             generateAudio(sampleid, oldpk, dom[0].data, lyrics, this.token).then((e) => {
-                if (e && e[0].sc_pk) {
+                if (e.errcode && e.errcode != '') {
+                    alert('errcode' + oldpk)
+                }
+                if (e && e[0] && e[0].sc_pk) {
                     try {
                         pvid = e[0].sc_pk
                         localStorage.setItem("histroyPvPk", e[0].sc_pk)

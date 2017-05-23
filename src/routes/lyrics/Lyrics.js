@@ -15,14 +15,16 @@ import s from './Lyrics.css';
 import fetch from '../../core/fetch';
 import config from '../../config';
 import DropToDo from '../../components/DropToDo/DropToDo';
+import FooterNav from '../../components/FooterNav/FooterNav';
 import Link from '../../components/Link/Link';
 import { GetQueryString, getUserToken } from '../../commonFunc/';
 import Loader from '../../components/Loading';
 import history from '../../history';
-
 import playImg from "./play.png";
 import playingImg from "./playing.png";
 import resetImg from "./reset-lyric.png";
+
+
 
 
 
@@ -162,6 +164,7 @@ class Lyrics extends React.Component {
             return false
         }
         this.handleGoNext = () => {
+            localStorage.setItem("histroyPvPk", "")
             history.push("/pv")
         }
         this.handleGoPrevious = () => {
@@ -276,12 +279,14 @@ class Lyrics extends React.Component {
                         }
                         let t = tempBlock
                         let tempImgSrc = playImg
+                        let tempImgCls = "trylisten"
                         if (this.state.trylistenIndex != 0 && t == this.state.trylistenIndex) {
                             tempImgSrc = playingImg
+                            tempImgCls = "trylistening"
                         }
                         tpmldom.push(
                             <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>主歌歌词
-                            <img src={tempImgSrc} className={s.trylisten}
+                            <img src={tempImgSrc} className={tempImgCls}
                             onClick={() => {
                                 this.handleListen(t)
                             }}
@@ -311,12 +316,14 @@ class Lyrics extends React.Component {
                         }
                         let t = tempBlock
                         let tempImgSrc = playImg
+                        let tempImgCls = "trylisten"
                         if (this.state.trylistenIndex != 0 && t == this.state.trylistenIndex) {
                             tempImgSrc = playingImg
+                            tempImgCls = "trylistening"
                         }
                         tprmdom.push(
                             <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>副歌歌词 
-                            <img src={tempImgSrc} className={s.trylisten}
+                            <img src={tempImgSrc} className={tempImgCls}
                             onClick={() => {
                                 this.handleListen(t)
                             }}
@@ -348,11 +355,11 @@ class Lyrics extends React.Component {
                 display: this.state.displayLoader
             }}><Loader color="#ff6600"/></div>
                 {tpdom}
-                <audio controls ref="audio">
+                <audio ref="audio">
                 <source type='audio/mpeg' src=""/>
                 </audio>
-                <button onClick={this.handleGoPrevious}>上一步</button>
-                <button onClick={this.handleGoNext}>下一步</button>
+                <FooterNav >
+                </FooterNav>
             </div>
         );
     }
