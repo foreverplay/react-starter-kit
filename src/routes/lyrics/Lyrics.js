@@ -25,9 +25,6 @@ import playingImg from "./playing.png";
 import resetImg from "./reset-lyric.png";
 
 
-
-
-
 async function getInitLyrics(id, token) {
     let t = (token) ? token : "";
     const resp = await fetch(config.serverHost + 'makesong/inputlyric/' + id, {
@@ -358,8 +355,11 @@ class Lyrics extends React.Component {
                 <audio ref="audio">
                 <source type='audio/mpeg' src=""/>
                 </audio>
-                <FooterNav >
-                </FooterNav>
+                <FooterNav handleLeft={() => {
+                this.handleGoPrevious()
+            }} handleRight = {() => {
+                this.handleGoNext()
+            }}/>
             </div>
         );
     }

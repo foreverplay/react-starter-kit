@@ -26,28 +26,41 @@ class FooterNav extends React.Component {
     // }
     constructor(props) {
         super(props);
-
+        this.handleLeft = () => {
+            this.props.handleLeft()
+        }
+        this.handleRight = () => {
+            this.props.handleRight()
+        }
     }
     componentDidMount() {}
     componentWillUnmount() {}
     render() {
-        console.log(12)
+        let tempL = "上一步"
+        let tempR = "下一步"
+        if (typeof this.props.textL != "undefined") {
+            tempL = this.props.textL
+        }
+        if (typeof this.props.textR != "undefined") {
+            tempR = this.props.textR
+        }
         return (
             <div className={s.root}>
+            <div className={s.block}></div>
                 <div className={s.footer} style={{
                 backgroundImage: "url(" + footerbgImg + ")"
             }}>
                     <div className={s.footerbefore} style={{
                 backgroundImage: "url(" + footerlImg + ")"
             }}></div>
-                    <div className={s.back} onClick={this.handleGoPrevious}>
+                    <div className={s.back} onClick={this.handleLeft}>
                         <div className={s.backbefore} style={{
                 backgroundImage: "url(" + footercImg + ")"
             }}></div>
-                        上一步
+                       {tempL}
                     </div>
-                   <div className={s.foreward} onClick={this.handleGoNext}>
-                        下一步
+                   <div className={s.foreward} onClick={this.handleRight}>
+                        {tempR}
                     </div>
                      <div className={s.footerafter} style={{
                 backgroundImage: "url(" + footerrImg + ")"

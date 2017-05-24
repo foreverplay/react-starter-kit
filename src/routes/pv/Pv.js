@@ -15,11 +15,15 @@ import s from './Pv.css';
 import fetch from '../../core/fetch';
 import config from '../../config';
 import DropToDo from '../../components/DropToDo/DropToDo';
+import FooterNav from '../../components/FooterNav/FooterNav';
 import Link from '../../components/Link/Link';
 import { GetQueryString, getUserToken } from '../../commonFunc/';
 import Loader from '../../components/Loading';
 import history from '../../history';
 import moreImg from './more.png';
+import ImgborderImg from "./Imgborder.png";
+import introduceImg from "./introduce.png";
+import tooltipImg from "./tooltip.png";
 
 
 async function getInitSamplePvs(id, token) {
@@ -159,6 +163,7 @@ class Pv extends React.Component {
             if (!c) {
                 return
             }
+            return
             publishPvs(localStorage.getItem("histroyPvPk"), this.state.introduce, this.token).then((e) => {
                 console.log(e)
                 history.push("/play?id=" + localStorage.getItem("histroyPvPk"))
@@ -197,6 +202,12 @@ class Pv extends React.Component {
             } else {
                 this.uploadIndex = 0;
             }
+        }
+        this.resetEdit = () => {
+            this.setState({
+                editDisplay: "none"
+            })
+            document.querySelector(".cr-image").setAttribute("src", "")
         }
         this.hideEdit = (e) => {
             if (e.target.className != 'preview' && e.target.className != 'cr-viewport cr-vp-square' && e.target.className != 'cr-vp-square' && e.target.className != 'upload' && e.target.className != '') {
@@ -331,12 +342,13 @@ class Pv extends React.Component {
     }
     render() {
         let tpdom = [];
+        let tpmldom = [];
+        let tprmdom = [];
         if (this.state.dom.length != 0) {
             let tempBlock = 1;
             let startBlock = true;
             let no = 0;
             for ( let item of this.state.dom ) {
-                let tempno = no
                 switch (item.type) {
                 case "mainLyrics":
                     if (tempBlock != item.block) {
@@ -344,19 +356,25 @@ class Pv extends React.Component {
                         tempBlock = item.block
                     }
                     if (startBlock) {
+                        if (tpmldom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tpmldom}</div>)
+                            tpmldom = []
+                        }
+                        if (tprmdom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tprmdom}</div>)
+                            tprmdom = []
+                        }
                         let t = tempBlock
-                        tpdom.push(
-                            <div key={"block" + tempBlock}>mainLyrics</div>
+                        tpmldom.push(
+                            <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>主歌歌词
+                            </div>
                         )
                         startBlock = false
                     }
-                    tpdom.push(
-                        <div key={"input" + no} className={s.pvLine} style={{
-                            backgroundImage: "url(" + item.backgroundImage + ")"
-                        }} onClick={() => {
-                            this.openEdit(tempno)
-                        }}>{item.data}</div>
+                    tpmldom.push(
+                        <div key={"input" + no} className={s.singlegroup}><div className={s.textinput}>{item.data}</div></div>
                     )
+
                     break;
                 case "refrainLyrics":
                     if (tempBlock != item.block) {
@@ -364,35 +382,56 @@ class Pv extends React.Component {
                         tempBlock = item.block
                     }
                     if (startBlock) {
+                        if (tpmldom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tpmldom}</div>)
+                            tpmldom = []
+                        }
+                        if (tprmdom.length != 0) {
+                            tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock}>{tprmdom}</div>)
+                            tprmdom = []
+                        }
                         let t = tempBlock
-                        tpdom.push(
-                            <div key={"block" + tempBlock}>refrainLyrics</div>
+                        tprmdom.push(
+                            <div key={"lyrictitle" + tempBlock} className={s.secondtitle}>副歌歌词 
+                            </div>
                         )
                         startBlock = false
                     }
-                    tpdom.push(
-                        <div key={"input" + no} className={s.pvLine} style={{
-                            backgroundImage: "url(" + item.backgroundImage + ")"
-                        }} onClick={() => {
-                            this.openEdit(tempno)
-                        }}>{item.data}</div>
+                    tprmdom.push(
+                        <div key={"input" + no} className={s.singlegroup}><div className={s.textinput}>{item.data}</div></div>
                     )
                     break;
                 }
                 no++
             }
+            if (tpmldom.length != 0) {
+                tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock + 1}>{tpmldom}</div>)
+                tpmldom = []
+            }
+            if (tprmdom.length != 0) {
+                tpdom.push(<div className={s.lyricsblock} key={"tempblock" + tempBlock + 1}>{tprmdom}</div>)
+                tprmdom = []
+            }
+
         }
         return (
             <div className={s.root}>
                 <div style={{
-                backgroundImage: "url(" + this.state.sampleCover + ")"
+                borderImage: "url(" + ImgborderImg + ") 30 round",
             }} className={s.songcover}>
-            <img src={moreImg} className={s.openEditBtn} onClick={this.openEdit}/>
+                <div className={s.coverbg} style={{
+                backgroundImage: "url(" + this.state.sampleCover + ")",
+            }}></div>
+                <img src={moreImg} className={s.openEditBtn} onClick={this.openEdit}/>
+                <div className={s.inputgroup}>
+                    <img src={introduceImg} className={s.introduceImg}/>
+                    <textarea className={s.introduce} placeholder={"请输入更多作品简介"} onChange={this.handleInputChange} value={this.state.introduce}/>
+                </div>
             </div>
-                <input className={s.introduce} placeholder={"请输入更多作品简介"} onChange={this.handleInputChange} value={this.state.introduce}/>
                 <div className={s.loader} style={{
                 display: this.state.displayLoader
             }}><Loader color="#ff6600"/></div>
+            <div className = {s.pvtip}><img src={tooltipImg}/>点击歌词可以配图哟~</div>
             <div className={s.pvlineContainer}>
             {tpdom}
             </div>
@@ -400,10 +439,26 @@ class Pv extends React.Component {
                 display: this.state.editDisplay
             }} onClick={this.hideEdit}>
                 <input type="file" ref={input => this._inputElement = input} onChange={this.imgUpload} className="upload" accept="image/png,image/jpg,image/jpeg,imge/bmp,image/gif"/>
-                <button onClick={this.handlCroppieImg}>生成</button>
+                
             </div>
-                <button onClick={this.handleGoPrevious}>上一步</button>
-                <button onClick={this.handlePublish}>发布</button>
+            <div className={s.editfooter} style={{
+                display: this.state.editDisplay
+            }}>
+                 <FooterNav
+            textL = "取消"
+            textR = "确定"
+            handleLeft={() => {
+                // this.handleGoPrevious()
+                this.resetEdit()
+            }} handleRight = {() => {
+                this.handlCroppieImg()
+            }}/>
+            </div>
+            <FooterNav handleLeft={() => {
+                this.handleGoPrevious()
+            }} handleRight = {() => {
+                this.handlePublish()
+            }}/>
             </div>
         );
     }
