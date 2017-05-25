@@ -148,6 +148,7 @@ class Pv extends React.Component {
             dom: [],
             introduce: "",
             editDisplay: "none",
+            showChoseImgBtn: true,
         }
         this.uploadIndex = 0;
         this.uploadContainer = "";
@@ -182,6 +183,9 @@ class Pv extends React.Component {
         this.imgUpload = (e) => {
             readFile(this._inputElement).then((e) => {
                 // console.log(e)
+                this.setState({
+                    showChoseImgBtn: false,
+                })
                 this.uploadContainer.bind({
                     url: e
                 });
@@ -190,17 +194,23 @@ class Pv extends React.Component {
             })
         }
         this.openEdit = (e) => {
-            // this._inputElement.click()
             // this.refs.CroppieContent.click()
             // document.querySelector(".upload").click()
-
-            this.setState({
-                editDisplay: "block"
-            })
-            if (typeof e == "number") {
-                this.uploadIndex = e;
+            let tempClipImg = document.querySelector(".cr-image")
+            if (tempClipImg.getAttribute("src") != null && tempClipImg.getAttribute("src") != "") {
+                this.setState({
+                    editDisplay: "block"
+                })
             } else {
-                this.uploadIndex = 0;
+                this.setState({
+                    editDisplay: "block"
+                })
+                this._inputElement.click()
+                if (typeof e == "number") {
+                    this.uploadIndex = e;
+                } else {
+                    this.uploadIndex = 0;
+                }
             }
         }
         this.resetEdit = () => {
@@ -210,13 +220,20 @@ class Pv extends React.Component {
             document.querySelector(".cr-image").setAttribute("src", "")
         }
         this.hideEdit = (e) => {
-            if (e.target.className != 'preview' && e.target.className != 'cr-viewport cr-vp-square' && e.target.className != 'cr-vp-square' && e.target.className != 'upload' && e.target.className != '') {
+            if (e.target.className != 'preview' && e.target.className != 'cr-sliderbefore' && e.target.className != 'cr-sliderafter' && e.target.className != 'cr-viewport cr-vp-square' && e.target.className != 'cr-vp-square' && e.target.className != 'upload' && e.target.className != '') {
+                // document.querySelector(".cr-image").setAttribute("src", "")
                 this.setState({
                     editDisplay: "none"
                 })
             }
         }
         this.handlCroppieImg = () => {
+            let tempClipImg = document.querySelector(".cr-image")
+            if (tempClipImg.getAttribute("src") == null || tempClipImg.getAttribute("src") == "") {
+                this._inputElement.click()
+                return
+            }
+            // judge img chosed
             let windowwidth = document.documentElement.clientWidth;
             windowwidth -= 24
             if (windowwidth > 768) {
@@ -232,6 +249,7 @@ class Pv extends React.Component {
                 this.setState({
                     editDisplay: "none",
                 })
+                document.querySelector(".cr-image").setAttribute("src", "")
                 if (this.uploadIndex == 0) {
                     changeCover(localStorage.getItem("histroyPvPk"), encodeURIComponent(blob), this.token).then((e) => {
                         console.log(e)
@@ -414,6 +432,10 @@ class Pv extends React.Component {
             }
 
         }
+        let tempTextR = "确定"
+        if (this.state.showChoseImgBtn) {
+            tempTextR = "选择图片"
+        }
         return (
             <div className={s.root}>
                 <div style={{
@@ -438,15 +460,18 @@ class Pv extends React.Component {
             <div ref="CroppieContent" className={s.uploadContainer} style={{
                 display: this.state.editDisplay
             }} onClick={this.hideEdit}>
+                <div style={{
+                display: "none"
+            }}>
                 <input type="file" ref={input => this._inputElement = input} onChange={this.imgUpload} className="upload" accept="image/png,image/jpg,image/jpeg,imge/bmp,image/gif"/>
-                
+                </div>
             </div>
             <div className={s.editfooter} style={{
                 display: this.state.editDisplay
             }}>
                  <FooterNav
             textL = "取消"
-            textR = "确定"
+            textR = {tempTextR}
             handleLeft={() => {
                 // this.handleGoPrevious()
                 this.resetEdit()

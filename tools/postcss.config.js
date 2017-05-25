@@ -29,6 +29,9 @@ module.exports = () => ({
                 '--bp1': '(min-width: 828px)'
             }
         }),
+        require('postcss-assets')({
+            loadPaths: ['**']
+        }),
         // CSS4 Media Queries, e.g. @media screen and (width >= 500px) and (width <= 1200px) { }
         // https://github.com/postcss/postcss-media-minmax
         require('postcss-media-minmax')(),

@@ -16,7 +16,7 @@
 }
 .croppie-container .cr-viewport {
     position: absolute;
-    border: 2px solid #fff;
+    border: 2px solid #faaf38;
     margin: auto;
     top: 0;
     bottom: 0;
@@ -38,6 +38,7 @@
     margin: 0 auto;
     margin-top: 40px;
     text-align: center;
+    position: relative;
 }
 .croppie-result {
     position: relative;
@@ -175,5 +176,27 @@ background: #ccc;
 }
 .cr-rotate-r i:before {
     content: '↻';
+}
+.cr-sliderbefore{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: -45px;
+    top: 2px;
+    background-image: inline(sub.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.cr-sliderafter {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -45px;
+    top: 2px;
+    background-image: inline(plus.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 }
