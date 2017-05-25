@@ -194,8 +194,6 @@ class Pv extends React.Component {
             })
         }
         this.openEdit = (e) => {
-            // this.refs.CroppieContent.click()
-            // document.querySelector(".upload").click()
             let tempClipImg = document.querySelector(".cr-image")
             if (tempClipImg.getAttribute("src") != null && tempClipImg.getAttribute("src") != "") {
                 this.setState({
@@ -228,12 +226,12 @@ class Pv extends React.Component {
             }
         }
         this.handlCroppieImg = () => {
+            // judge img chosed
             let tempClipImg = document.querySelector(".cr-image")
             if (tempClipImg.getAttribute("src") == null || tempClipImg.getAttribute("src") == "") {
                 this._inputElement.click()
                 return
             }
-            // judge img chosed
             let windowwidth = document.documentElement.clientWidth;
             windowwidth -= 24
             if (windowwidth > 768) {
@@ -390,7 +388,7 @@ class Pv extends React.Component {
                         startBlock = false
                     }
                     tpmldom.push(
-                        <div key={"input" + no} className={s.singlegroup}><div className={s.textinput}>{item.data}</div></div>
+                        <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground}>{item.data}</div><div className={s.textinput}>{item.data}</div></div>
                     )
 
                     break;
@@ -416,7 +414,7 @@ class Pv extends React.Component {
                         startBlock = false
                     }
                     tprmdom.push(
-                        <div key={"input" + no} className={s.singlegroup}><div className={s.textinput}>{item.data}</div></div>
+                        <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground}>{item.data}</div><div className={s.textinput}>{item.data}</div></div>
                     )
                     break;
                 }

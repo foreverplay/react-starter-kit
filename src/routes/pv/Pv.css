@@ -106,6 +106,7 @@ html{
     line-height: 25px;
     max-width: 768px;
     margin: 0 auto;
+    margin-top: 10px;
 }
 .pvtip img{
     height: 10px;
@@ -192,10 +193,31 @@ html{
     border: none;
     height: 40px;
     line-height: 40px;
-    padding-right: 75px;
     padding-left: 12px;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.pvLineBackground{
+    height: 40px;
+    line-height: 40px;
+    padding-left: 12px;
+    z-index: 10;
+    width: 0%;
+    overflow: hidden;
+    text-shadow: 0 1px 1px #000;
+    color: #fff;
+    font-weight: bold;
+    position: absolute;
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    transition: all linear .3s;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .pvLine{
     width: 100%;
