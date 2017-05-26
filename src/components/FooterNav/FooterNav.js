@@ -55,8 +55,8 @@ class FooterNav extends React.Component {
             }}></div>
                     <div className={s.back} onClick={this.handleLeft}>
                         <div className={s.backbefore} style={{
-                backgroundImage: "url(" + footercImg + ")"
-            }}></div>
+    backgroundImage: "url(" + footercImg + ")"
+}}></div>
                        {tempL}
                     </div>
                    <div className={s.foreward} onClick={this.handleRight}>

@@ -13,6 +13,8 @@
     width: 100%;
     max-width: var(--max-content-width);
     position: relative;
+    touch-action: manipulation;
+    
 }
 .block {
     height: 50px;
@@ -56,6 +58,7 @@
     background-repeat: no-repeat;
     background-size: auto 100%;
     background-position: right;
+
 }
 .footer div {
     font-size: 12px;
@@ -69,6 +72,7 @@
     z-index: 20;
     color: #FAAF38;
     cursor: pointer;
+
 }
 .backbefore {
     z-index: 1;
@@ -83,4 +87,6 @@
 .foreward {
     color: #fff;
     cursor: pointer;
+    position: relative;
+    z-index: 120;
 }

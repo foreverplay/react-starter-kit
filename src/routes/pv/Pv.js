@@ -193,7 +193,7 @@ class Pv extends React.Component {
                 console.log(e)
             })
         }
-        this.openEdit = (e) => {
+        this.openEdit = () => {
             let tempClipImg = document.querySelector(".cr-image")
             if (tempClipImg.getAttribute("src") != null && tempClipImg.getAttribute("src") != "") {
                 this.setState({
@@ -204,11 +204,7 @@ class Pv extends React.Component {
                     editDisplay: "block"
                 })
                 this._inputElement.click()
-                if (typeof e == "number") {
-                    this.uploadIndex = e;
-                } else {
-                    this.uploadIndex = 0;
-                }
+            // document.querySelector(".upload").click()
             }
         }
         this.resetEdit = () => {
@@ -225,11 +221,16 @@ class Pv extends React.Component {
                 })
             }
         }
+        this.handleLineUpload = (e) => {
+            this.uploadIndex = e;
+            this.openEdit()
+        }
         this.handlCroppieImg = () => {
             // judge img chosed
             let tempClipImg = document.querySelector(".cr-image")
             if (tempClipImg.getAttribute("src") == null || tempClipImg.getAttribute("src") == "") {
                 this._inputElement.click()
+                // document.querySelector(".upload").click()
                 return
             }
             let windowwidth = document.documentElement.clientWidth;
@@ -246,6 +247,9 @@ class Pv extends React.Component {
             }).then((blob) => {
                 this.setState({
                     editDisplay: "none",
+                })
+                this.setState({
+                    showChoseImgBtn: false,
                 })
                 document.querySelector(".cr-image").setAttribute("src", "")
                 if (this.uploadIndex == 0) {
@@ -365,6 +369,7 @@ class Pv extends React.Component {
             let startBlock = true;
             let no = 0;
             for ( let item of this.state.dom ) {
+                let tempWidth = "0%";
                 switch (item.type) {
                 case "mainLyrics":
                     if (tempBlock != item.block) {
@@ -387,8 +392,14 @@ class Pv extends React.Component {
                         )
                         startBlock = false
                     }
+                    if (item.backgroundImage != "") {
+                        tempWidth = "100%";
+                    }
                     tpmldom.push(
-                        <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground}>{item.data}</div><div className={s.textinput}>{item.data}</div></div>
+                        <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground} style={{
+                            backgroundImage: "url(" + item.backgroundImage + ")",
+                            width: tempWidth
+                        }} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
                     )
 
                     break;
@@ -413,8 +424,14 @@ class Pv extends React.Component {
                         )
                         startBlock = false
                     }
+                    if (item.backgroundImage != "") {
+                        tempWidth = "100%";
+                    }
                     tprmdom.push(
-                        <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground}>{item.data}</div><div className={s.textinput}>{item.data}</div></div>
+                        <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground} style={{
+                            backgroundImage: "url(" + item.backgroundImage + ")",
+                            width: tempWidth
+                        }} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
                     )
                     break;
                 }
@@ -431,8 +448,15 @@ class Pv extends React.Component {
 
         }
         let tempTextR = "确定"
+        let tempinputdom = [];
         if (this.state.showChoseImgBtn) {
             tempTextR = "选择图片"
+            tempinputdom.push(<div className={s.inputBtn} style={{
+                opacity: "1",
+                display: this.state.editDisplay,
+            }}>
+            <input type="file" ref={input => this._inputElement = input} onChange={this.imgUpload} className="upload" accept="image/png,image/jpg,image/jpeg,imge/bmp,image/gif"/>
+            </div>)
         }
         return (
             <div className={s.root}>
@@ -458,12 +482,9 @@ class Pv extends React.Component {
             <div ref="CroppieContent" className={s.uploadContainer} style={{
                 display: this.state.editDisplay
             }} onClick={this.hideEdit}>
-                <div style={{
-                display: "none"
-            }}>
-                <input type="file" ref={input => this._inputElement = input} onChange={this.imgUpload} className="upload" accept="image/png,image/jpg,image/jpeg,imge/bmp,image/gif"/>
-                </div>
             </div>
+            
+            {tempinputdom}
             <div className={s.editfooter} style={{
                 display: this.state.editDisplay
             }}>

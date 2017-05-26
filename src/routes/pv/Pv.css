@@ -47,6 +47,15 @@ html{
     background-position: center;
     background-size: cover;
 }
+.inputBtn input{
+    position: fixed;
+    bottom: 0px;
+    right: 0;
+    width: 50%;
+    height: 45px;
+    z-index: 1300;
+    opacity: 0;
+}
 .loader{
     display: none;
     position: fixed;
