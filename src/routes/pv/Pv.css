@@ -242,6 +242,39 @@ html {
     padding: 0 10px;
     background-color: #fff;
 }
+.barControl{
+    position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 100%;
+    z-index: 100;
+    top: 0;
+}
+.barControl div{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    display: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+.tooltop{
+    top: 30px;
+    margin-top: -5px;
+    background: #6affff;
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+.toolbottom{
+    top: 65px;
+    margin-top: 30px;
+    background: #6affff;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
 .lyricsblock {
     font-family: var(--font-family-base);
     font-size: 12px;

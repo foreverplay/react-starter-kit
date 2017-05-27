@@ -167,6 +167,8 @@ class Pv extends React.Component {
             editDisplay: "none",
             editDisplayUrl: "",
             showChoseImgBtn: true,
+            toolTop: 0,
+            toolBottom: 50,
         }
         this.uploadIndex = 0;
         this.uploadContainer = "";
@@ -553,6 +555,10 @@ class Pv extends React.Component {
                     <div className = {s.pvtip}><img src={tooltipImg}/>点击歌词可以配图哟~</div>
                     <div className={s.pvlineContainer}>
                     {tpdom}
+                    <div className={s.barControl}>
+                        <div className={s.tooltop}></div>
+                        <div className={s.toolbottom}></div>
+                    </div>
                     </div>
                     
                     <div ref="CroppieContent" className={s.uploadContainer} style={{
