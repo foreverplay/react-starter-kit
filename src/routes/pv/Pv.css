@@ -6,39 +6,37 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-
 @import '../../components/variables.css';
 @import './Croppie.css';
 
-html{
-	background-color: var(--common-bg-color);
+html {
+    background-color: var(--common-bg-color);
 }
 .root {
-	width: 100%;
+    width: 100%;
     max-width: var(--max-content-width);
     margin: 0 auto;
     margin-top: 10px;
 }
-
 .container {
-	margin: 0 auto;
-	padding: 0;
-	max-width: var(--max-content-width);
-	min-height: 160px;
+    margin: 0 auto;
+    padding: 0;
+    max-width: var(--max-content-width);
+    min-height: 160px;
 }
-.songcover{
+.songcover {
     position: relative;
     width: 100%;
-    max-height :var(--max-content-width);
+    max-height: var(--max-content-width);
     height: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    border:10px solid transparent;
+    border: 10px solid transparent;
     box-sizing: border-box;
     border-radius: 5px;
 }
-.coverbg{
+.coverbg {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -47,7 +45,7 @@ html{
     background-position: center;
     background-size: cover;
 }
-.inputBtn input{
+.inputBtn input {
     position: fixed;
     bottom: 0px;
     right: 0;
@@ -56,7 +54,7 @@ html{
     z-index: 1300;
     opacity: 0;
 }
-.loader{
+.loader {
     display: none;
     position: fixed;
     z-index: 999;
@@ -64,12 +62,12 @@ html{
     height: 100%;
     left: 50%;
     top: 50%;
-    background-color: rgba(0,0,0,0.7);
-    transform: translate3d(-50%,-50%,0);
+    background-color: rgba(0, 0, 0, 0.7);
+    transform: translate3d(-50%, -50%, 0);
     display: flex;
     align-items: center;
 }
-.inputgroup{
+.inputgroup {
     width: 100%;
     height: 40px;
     position: absolute;
@@ -77,7 +75,7 @@ html{
     left: 0;
     box-sizing: border-box;
 }
-.introduce{
+.introduce {
     position: absolute;
     z-index: 100;
     left: 0;
@@ -97,7 +95,7 @@ html{
     line-height: 20px;
     font-size: 12px;
 }
-.introduceImg{
+.introduceImg {
     position: absolute;
     z-index: 200;
     left: 9px;
@@ -106,8 +104,8 @@ html{
     max-height: 15px;
     margin-top: 15px;
 }
-.pvtip{
-        font-size: 10px;
+.pvtip {
+    font-size: 10px;
     color: #abaeae;
     text-align: right;
     padding: 0 15px;
@@ -117,21 +115,110 @@ html{
     margin: 0 auto;
     margin-top: 10px;
 }
-.pvtip img{
+.pvtip img {
     height: 10px;
     margin: 0 5px;
     margin-bottom: 3px;
 }
-.uploadContainer{
+.uploadContainer {
     position: fixed;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
     z-index: 999;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
 }
-.title{
+.editContainer {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1199;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.editContainerImg {
+    position: relative;
+    z-index: 1200;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    margin: 12px;
+    box-sizing: border-box;
+    border: 10px solid transparent;
+}
+@media (--bp1) {
+    .editContainerImg {
+        max-width: var(--max-content-width);
+        margin: 0 auto;
+    }
+}
+.editContainerImg:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+.controlGroup {
+    position: absolute;
+    bottom: 0;
+    height: 45px;
+    padding: 8px 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    box-sizing: border-box;
+}
+.edit {
+    float: left;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    background-image: inline(update_pv_img.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 35px;
+    border-right: 1px solid #424242;
+    box-sizing: border-box;
+}
+.edit:before {
+    content: "";
+    position: absolute;
+    height: 80%;
+}
+.uploadforcss{
+  position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+.delete {
+    float: left;
+    width: 50%;
+    height: 100%;
+    text-align: center;
+    background-image: inline(delete_pv_img.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 35px;
+}
+.hiddenBg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1199;
+    left: 0;
+    top: 0;
+}
+.editContainerText {
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    margin-top: 20px;
+}
+.title {
     height: 45px;
     line-height: 45px;
     padding-left: 15px;
@@ -142,11 +229,11 @@ html{
     font-size: 12px;
     font-weight: bold;
 }
-.openEditBtn{
+.openEditBtn {
     width: 45px;
     height: 45px;
 }
-.pvlineContainer{
+.pvlineContainer {
     position: relative;
     max-width: var(--max-content-width);
     width: 100%;
@@ -209,7 +296,7 @@ html{
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.pvLineBackground{
+.pvLineBackground {
     height: 40px;
     line-height: 40px;
     padding-left: 12px;
@@ -228,7 +315,7 @@ html{
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-.pvLine{
+.pvLine {
     width: 100%;
     right: 0;
     color: #a9a9a9;
@@ -238,13 +325,12 @@ html{
     z-index: 0;
     height: 40px;
     line-height: 40px;
-
     background: #fff;
     -webkit-transition: all linear .3s;
     transition: all linear .3s;
     border-bottom: 1px dashed #a9a9a9;
 }
-.editfooter{
+.editfooter {
     position: fixed;
     background-color: transparent;
     width: 100%;
@@ -252,14 +338,15 @@ html{
     bottom: 0;
     z-index: 1100;
 }
-:global{
-/*    .cr-boundary:after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    border: 2px solid #fff;
-}*/
+:global {
+
+    /*    .cr-boundary:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        border: 2px solid #fff;
+    }*/
 }

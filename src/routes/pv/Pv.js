@@ -102,6 +102,22 @@ async function changeLine(pk, index, img, token) {
         throw new Error('Failed to load the listen.');
     return data;
 }
+async function deleteLine(pk, index, token) {
+    // oldpk 
+    let t = (token) ? token : "";
+    const resp = await fetch(config.serverHost + 'PictureMovie/delete', {
+        method: 'post',
+        headers: {
+            'Authorization': 'Bearer ' + t,
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: "pk=" + pk + "&index=" + index,
+    })
+    const data = await resp.json();
+    if (!data)
+        throw new Error('Failed to load the listen.');
+    return data;
+}
 async function publishPvs(pk, tempintroduce, token) {
     let t = (token) ? token : "";
     const resp = await fetch(config.serverHost + 'makesong/pushmp3pv/' + pk, {
@@ -147,12 +163,15 @@ class Pv extends React.Component {
             sampleCover: {},
             dom: [],
             introduce: "",
+            pvManagerDisplay: "none",
             editDisplay: "none",
+            editDisplayUrl: "",
             showChoseImgBtn: true,
         }
         this.uploadIndex = 0;
         this.uploadContainer = "";
         this._inputElement = "";
+        this._inputElementForcss = "";
         this.handleInputChange = (e) => {
             this.setState({
                 introduce: e.target.value
@@ -180,6 +199,19 @@ class Pv extends React.Component {
         this.handleGoPrevious = () => {
             history.goBack()
         }
+        this.imgUploadForcss = () => {
+            readFile(this._inputElementForcss).then((e) => {
+                // console.log(e)
+                this.setState({
+                    showChoseImgBtn: false,
+                })
+                this.uploadContainer.bind({
+                    url: e
+                });
+            }, (e) => {
+                console.log(e)
+            })
+        }
         this.imgUpload = (e) => {
             readFile(this._inputElement).then((e) => {
                 // console.log(e)
@@ -197,19 +229,22 @@ class Pv extends React.Component {
             let tempClipImg = document.querySelector(".cr-image")
             if (tempClipImg.getAttribute("src") != null && tempClipImg.getAttribute("src") != "") {
                 this.setState({
-                    editDisplay: "block"
+                    pvManagerDisplay: "block"
                 })
             } else {
                 this.setState({
-                    editDisplay: "block"
+                    showChoseImgBtn: true,
+                    pvManagerDisplay: "block"
                 })
-                this._inputElement.click()
+                if (this._inputElement != "" && this._inputElement != null) {
+                    this._inputElement.click()
+                }
             // document.querySelector(".upload").click()
             }
         }
         this.resetEdit = () => {
             this.setState({
-                editDisplay: "none"
+                pvManagerDisplay: "none"
             })
             document.querySelector(".cr-image").setAttribute("src", "")
         }
@@ -217,7 +252,7 @@ class Pv extends React.Component {
             if (e.target.className != 'preview' && e.target.className != 'cr-sliderbefore' && e.target.className != 'cr-sliderafter' && e.target.className != 'cr-viewport cr-vp-square' && e.target.className != 'cr-vp-square' && e.target.className != 'upload' && e.target.className != '') {
                 // document.querySelector(".cr-image").setAttribute("src", "")
                 this.setState({
-                    editDisplay: "none"
+                    pvManagerDisplay: "none"
                 })
             }
         }
@@ -225,11 +260,51 @@ class Pv extends React.Component {
             this.uploadIndex = e;
             this.openEdit()
         }
+        this.handleLineWithBgUpload = (e) => {
+            this.uploadIndex = e;
+            // this.openEdit()
+            this.setState({
+                editDisplay: "block",
+                editDisplayUrl: this.state.dom[e].backgroundImage
+            })
+        }
+        this.hiddenEditContainer = () => {
+            this.setState({
+                editDisplay: "none",
+            })
+            this.uploadIndex = 0;
+        }
+        this.handleEditBtn = () => {
+            this.setState({
+                editDisplay: "none",
+            })
+            document.querySelector(".cr-image").setAttribute("src", "")
+            this.setState({
+                showChoseImgBtn: true,
+                pvManagerDisplay: "block"
+            })
+        }
+        this.handleDeleteBtn = () => {
+            deleteLine(localStorage.getItem("histroyPvPk"), this.uploadIndex, this.token).then((e) => {
+                if (e && e.code == "ok") {
+                    let dom = this.state.dom
+                    dom[this.uploadIndex].backgroundImage = "";
+                    localStorage.setItem("histroyDom", JSON.stringify(dom))
+                    this.setState({
+                        dom: dom
+                    })
+                    this.hiddenEditContainer()
+                }
+            })
+        }
         this.handlCroppieImg = () => {
             // judge img chosed
             let tempClipImg = document.querySelector(".cr-image")
             if (tempClipImg.getAttribute("src") == null || tempClipImg.getAttribute("src") == "") {
-                this._inputElement.click()
+                // this._inputElement.click()
+                if (this._inputElement != "" && this._inputElement != null) {
+                    this._inputElement.click()
+                }
                 // document.querySelector(".upload").click()
                 return
             }
@@ -246,7 +321,7 @@ class Pv extends React.Component {
                 },
             }).then((blob) => {
                 this.setState({
-                    editDisplay: "none",
+                    pvManagerDisplay: "none",
                 })
                 this.setState({
                     showChoseImgBtn: false,
@@ -263,7 +338,7 @@ class Pv extends React.Component {
                     changeLine(localStorage.getItem("histroyPvPk"), this.uploadIndex, encodeURIComponent(blob), this.token).then((e) => {
                         let dom = this.state.dom
                         if (e && e.order_index) {
-                            dom[e.order_index].backgroundImage = config.serverHost + e.picture
+                            dom[e.order_index].backgroundImage = config.serverHost + e.picture + "?" + Math.random()
                             localStorage.setItem("histroyDom", JSON.stringify(dom))
                             this.setState({
                                 dom: dom
@@ -399,7 +474,7 @@ class Pv extends React.Component {
                         <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground} style={{
                             backgroundImage: "url(" + item.backgroundImage + ")",
                             width: tempWidth
-                        }} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
+                        }} onClick={this.handleLineWithBgUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
                     )
 
                     break;
@@ -431,7 +506,7 @@ class Pv extends React.Component {
                         <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground} style={{
                             backgroundImage: "url(" + item.backgroundImage + ")",
                             width: tempWidth
-                        }} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
+                        }} onClick={this.handleLineWithBgUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
                     )
                     break;
                 }
@@ -451,9 +526,9 @@ class Pv extends React.Component {
         let tempinputdom = [];
         if (this.state.showChoseImgBtn) {
             tempTextR = "选择图片"
-            tempinputdom.push(<div className={s.inputBtn} style={{
+            tempinputdom.push(<div key="uploadBtn" className={s.inputBtn} style={{
                 opacity: "1",
-                display: this.state.editDisplay,
+                display: this.state.pvManagerDisplay,
             }}>
             <input type="file" ref={input => this._inputElement = input} onChange={this.imgUpload} className="upload" accept="image/png,image/jpg,image/jpeg,imge/bmp,image/gif"/>
             </div>)
@@ -463,32 +538,49 @@ class Pv extends React.Component {
                 <div style={{
                 borderImage: "url(" + ImgborderImg + ") 30 round",
             }} className={s.songcover}>
-                <div className={s.coverbg} style={{
+                        <div className={s.coverbg} style={{
                 backgroundImage: "url(" + this.state.sampleCover + ")",
             }}></div>
-                <img src={moreImg} className={s.openEditBtn} onClick={this.openEdit}/>
-                <div className={s.inputgroup}>
-                    <img src={introduceImg} className={s.introduceImg}/>
-                    <textarea className={s.introduce} placeholder={"请输入更多作品简介"} onChange={this.handleInputChange} value={this.state.introduce}/>
-                </div>
-            </div>
-                <div className={s.loader} style={{
+                        <img src={moreImg} className={s.openEditBtn} onClick={this.openEdit}/>
+                        <div className={s.inputgroup}>
+                            <img src={introduceImg} className={s.introduceImg}/>
+                            <textarea className={s.introduce} placeholder={"请输入更多作品简介"} onChange={this.handleInputChange} value={this.state.introduce}/>
+                        </div>
+                    </div>
+                    <div className={s.loader} style={{
                 display: this.state.displayLoader
             }}><Loader color="#ff6600"/></div>
-            <div className = {s.pvtip}><img src={tooltipImg}/>点击歌词可以配图哟~</div>
-            <div className={s.pvlineContainer}>
-            {tpdom}
-            </div>
-            <div ref="CroppieContent" className={s.uploadContainer} style={{
-                display: this.state.editDisplay
+                    <div className = {s.pvtip}><img src={tooltipImg}/>点击歌词可以配图哟~</div>
+                    <div className={s.pvlineContainer}>
+                    {tpdom}
+                    </div>
+                    
+                    <div ref="CroppieContent" className={s.uploadContainer} style={{
+                display: this.state.pvManagerDisplay
             }} onClick={this.hideEdit}>
-            </div>
-            
-            {tempinputdom}
-            <div className={s.editfooter} style={{
+                    </div>
+                    <div className={s.editContainer} style={{
                 display: this.state.editDisplay
             }}>
-                 <FooterNav
+                        <div className={s.editContainerImg} style={{
+                borderImage: "url(" + ImgborderImg + ") 30 round",
+                backgroundImage: "url(" + this.state.editDisplayUrl + ")",
+            }}>
+                            <div className={s.controlGroup}>
+                                <div className={s.edit} onClick={this.handleEditBtn}>
+                                <input type="file" ref={input => this._inputElementForcss = input} onChange={this.imgUploadForcss} className={s.uploadforcss} accept="image/png,image/jpg,image/jpeg,imge/bmp,image/gif"/>
+                                </div>
+                                <div className={s.delete} onClick={this.handleDeleteBtn}></div>
+                            </div>
+                        </div>
+                        <div className={s.hiddenBg} onClick={this.hiddenEditContainer}></div>
+                            <div className={s.editContainerText}>点击空白区域返回</div>
+                    </div>
+                    {tempinputdom}
+                    <div className={s.editfooter} style={{
+                display: this.state.pvManagerDisplay
+            }}>
+                    <FooterNav
             textL = "取消"
             textR = {tempTextR}
             handleLeft={() => {
@@ -497,8 +589,8 @@ class Pv extends React.Component {
             }} handleRight = {() => {
                 this.handlCroppieImg()
             }}/>
-            </div>
-            <FooterNav handleLeft={() => {
+                    </div>
+                    <FooterNav handleLeft={() => {
                 this.handleGoPrevious()
             }} handleRight = {() => {
                 this.handlePublish()
