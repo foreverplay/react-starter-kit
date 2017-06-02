@@ -14,7 +14,7 @@
     max-width: var(--max-content-width);
     position: relative;
     touch-action: manipulation;
-    
+    height: 50px;
 }
 .block {
     height: 50px;

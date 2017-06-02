@@ -24,6 +24,7 @@ import moreImg from './more.png';
 import ImgborderImg from "./Imgborder.png";
 import introduceImg from "./introduce.png";
 import tooltipImg from "./tooltip.png";
+import {copyControlBind} from "./control.js";
 
 
 async function getInitSamplePvs(id, token) {
@@ -169,6 +170,7 @@ class Pv extends React.Component {
             showChoseImgBtn: true,
             toolTop: 0,
             toolBottom: 50,
+            showTool:"none",
         }
         this.uploadIndex = 0;
         this.uploadContainer = "";
@@ -268,6 +270,12 @@ class Pv extends React.Component {
             this.setState({
                 editDisplay: "block",
                 editDisplayUrl: this.state.dom[e].backgroundImage
+            })
+            this.handleShowControl()
+        }
+        this.handleShowControl=()=>{
+            this.setState({
+                showTool:"block",
             })
         }
         this.hiddenEditContainer = () => {
@@ -555,9 +563,9 @@ class Pv extends React.Component {
                     <div className = {s.pvtip}><img src={tooltipImg}/>点击歌词可以配图哟~</div>
                     <div className={s.pvlineContainer}>
                     {tpdom}
-                    <div className={s.barControl}>
-                        <div className={s.tooltop}></div>
-                        <div className={s.toolbottom}></div>
+                    <div className={s.barControl} style={{display : this.state.showTool}}>
+                        <div className={s.tooltop}>v</div>
+                        <div className={s.toolbottom}>v</div>
                     </div>
                     </div>
                     
