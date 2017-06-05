@@ -17,8 +17,8 @@ module.exports = {
     // Node.js app
     port: process.env.PORT || 3000,
 
-    serverHost: 'http://publicapp.star-fans.com/',
-    // serverHost: 'http://test.star-fans.com:8000/',
+    // serverHost: 'http://publicapp.star-fans.com/',
+    serverHost: 'http://test.star-fans.com:8000/',
     // serverHost: 'http://192.168.1.88:8002/',
     // API Gateway
     api: {

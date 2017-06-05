@@ -168,8 +168,8 @@ class Pv extends React.Component {
             editDisplay: "none",
             editDisplayUrl: "",
             showChoseImgBtn: true,
-            toolTop: 0,
-            toolBottom: 50,
+            toolTop: 55,
+            toolBottom: 105,
             showTool:"none",
         }
         this.uploadIndex = 0;
@@ -267,6 +267,13 @@ class Pv extends React.Component {
         this.handleLineWithBgUpload = (e) => {
             this.uploadIndex = e;
             // this.openEdit()
+            let tempTop = 0;
+            let tempBtm = 0;
+            tempBtm+=this.state.dom[e].block*55
+            tempBtm+=50*e
+            tempTop = tempBtm - 50
+            console.log(tempTop)
+            console.log(tempBtm)
             this.setState({
                 editDisplay: "block",
                 editDisplayUrl: this.state.dom[e].backgroundImage
@@ -421,8 +428,14 @@ class Pv extends React.Component {
                     }
                     getAllInfo(pvid, this.token).then((e) => {
                         if (e && e.picturemovies) {
-                            for (var i = 0; i < e.picturemovies.length; i++) {
-                                dom[e.picturemovies[i].order_index].backgroundImage = config.serverHost + e.picturemovies[i].picture
+                            if (e.picturemovies.length == 0) {
+                                for (var i = 1; i < dom.length; i++) {
+                                       dom[i].backgroundImage = ""
+                                   }   
+                            }else{
+                                for (var i = 0; i < e.picturemovies.length; i++) {
+                                    dom[e.picturemovies[i].order_index].backgroundImage = config.serverHost + e.picturemovies[i].picture
+                                }
                             }
                         }
                         if (e && e.cover_cover) {
@@ -564,8 +577,8 @@ class Pv extends React.Component {
                     <div className={s.pvlineContainer}>
                     {tpdom}
                     <div className={s.barControl} style={{display : this.state.showTool}}>
-                        <div className={s.tooltop}>v</div>
-                        <div className={s.toolbottom}>v</div>
+                        <div className={s.tooltop} style={{top:''+this.state.toolTop-25+'px'}}>v</div>
+                        <div className={s.toolbottom} style={{top:this.state.toolBottom+'px'}}>v</div>
                     </div>
                     </div>
                     
