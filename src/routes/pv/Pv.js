@@ -16,6 +16,7 @@ import fetch from '../../core/fetch';
 import config from '../../config';
 import DropToDo from '../../components/DropToDo/DropToDo';
 import FooterNav from '../../components/FooterNav/FooterNav';
+import ControlBar from '../../components/ControlBar/ControlBar';
 import Link from '../../components/Link/Link';
 import { GetQueryString, getUserToken } from '../../commonFunc/';
 import Loader from '../../components/Loading';
@@ -168,9 +169,9 @@ class Pv extends React.Component {
             editDisplay: "none",
             editDisplayUrl: "",
             showChoseImgBtn: true,
-            toolTop: 55,
-            toolBottom: 105,
             showTool:"none",
+            barInLine:1,
+
         }
         this.uploadIndex = 0;
         this.uploadContainer = "";
@@ -267,16 +268,10 @@ class Pv extends React.Component {
         this.handleLineWithBgUpload = (e) => {
             this.uploadIndex = e;
             // this.openEdit()
-            let tempTop = 0;
-            let tempBtm = 0;
-            tempBtm+=this.state.dom[e].block*55
-            tempBtm+=50*e
-            tempTop = tempBtm - 50
-            console.log(tempTop)
-            console.log(tempBtm)
             this.setState({
                 editDisplay: "block",
-                editDisplayUrl: this.state.dom[e].backgroundImage
+                editDisplayUrl: this.state.dom[e].backgroundImage,
+                barInLine:e,
             })
             this.handleShowControl()
         }
@@ -284,6 +279,12 @@ class Pv extends React.Component {
             this.setState({
                 showTool:"block",
             })
+        }
+        this.setBarTop = (e)=>{
+            console.log(e)
+        }
+        this.setBarBottom = (e)=>{
+            console.log(e)
         }
         this.hiddenEditContainer = () => {
             this.setState({
@@ -576,10 +577,7 @@ class Pv extends React.Component {
                     <div className = {s.pvtip}><img src={tooltipImg}/>点击歌词可以配图哟~</div>
                     <div className={s.pvlineContainer}>
                     {tpdom}
-                    <div className={s.barControl} style={{display : this.state.showTool}}>
-                        <div className={s.tooltop} style={{top:''+this.state.toolTop-25+'px'}}>v</div>
-                        <div className={s.toolbottom} style={{top:this.state.toolBottom+'px'}}>v</div>
-                    </div>
+                    <ControlBar showTool={this.state.showTool} dom={this.state.dom} barInLine={this.state.barInLine} setBarBottom={(e)=>{this.setBarBottom(e)}}  setBarTop={(e)=>{this.setBarTop(e)}} />
                     </div>
                     
                     <div ref="CroppieContent" className={s.uploadContainer} style={{
