@@ -177,6 +177,7 @@ class Pv extends React.Component {
         this.uploadContainer = "";
         this._inputElement = "";
         this._inputElementForcss = "";
+        this.finshChose = this.finshChose.bind(this)
         this.handleInputChange = (e) => {
             this.setState({
                 introduce: e.target.value
@@ -367,6 +368,14 @@ class Pv extends React.Component {
             });
 
         }
+    }
+    finshChose (e) {
+        console.log(e)
+        setTimeout(()=>{
+            this.setState({
+                showTool:"none"
+            })
+        },300)
     }
     componentDidMount() {
         let Croppie = require('./Croppie')
@@ -577,7 +586,7 @@ class Pv extends React.Component {
                     <div className = {s.pvtip}><img src={tooltipImg}/>点击歌词可以配图哟~</div>
                     <div className={s.pvlineContainer}>
                     {tpdom}
-                    <ControlBar showTool={this.state.showTool} dom={this.state.dom} barInLine={this.state.barInLine} setBarBottom={(e)=>{this.setBarBottom(e)}}  setBarTop={(e)=>{this.setBarTop(e)}} />
+                    <ControlBar showTool={this.state.showTool} dom={this.state.dom} barInLine={this.state.barInLine} finshChose={(a)=>{this.finshChose(a)}} />
                     </div>
                     
                     <div ref="CroppieContent" className={s.uploadContainer} style={{

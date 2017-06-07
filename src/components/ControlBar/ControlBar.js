@@ -25,26 +25,23 @@ class ControlBar extends React.Component{
 	}
 	getLineByH(height){
 		let temph = 0;
-		console.log(this.props.dom)
+		let data = {
+			"index" : 0,
+			"height":0,
+		}
 		for (var i = 1; i < this.props.dom.length; i++) {
 			if (this.props.dom[i].block>this.props.dom[i - 1].block) {
 				temph+=55+50
 			}else{
 				temph+=50
 			}
-			if (temph>height+20) {
-				return i
+			if (temph>height) {
+				return {
+					"index" : i,
+					"height": temph,
+				}
 			}
 		}
-		// if (preProps.barInLine && preProps.dom.length> 0) {
-	 //        let tempBtm = 0;
-  //           tempBtm+=preProps.dom[preProps.barInLine].block*55
-  //           tempBtm+=50*preProps.barInLine
-  //           this.setState({
-  //           	barBottom:tempBtm,
-  //           	barTop:tempBtm-75
-  //           })
-  //       }
 	}
 	onTouchStartUp(event){
 		this.tempBarTopH = event.touches[0].pageY
@@ -68,19 +65,16 @@ class ControlBar extends React.Component{
 		    return
 	}
 	onTouchEndUp(){
-		let endIndex = this.getLineByH(this.state.barTop)
-				console.log(endIndex)
-
-		// tempoffsettopu = $(this).offset().top
-	     //    if (tempheightbottomu) {
-	     //        var index = checkChosen(tempheightbottomu)
-	     //        tempheightbottomu = $('#dashed-pv' + index).offset().top - $('.imgcontrol').offset().top - 30
-	     //        $('#tooltop').css({
-	     //            'display': 'block',
-	     //            'top': tempheightbottomu + 'px',
-	     //        })
-	     //        topUpdateImg(index)
-	     //    }
+		let data = this.getLineByH(this.state.barTop+40)
+			this.setState({
+	        	barTop:data.height - 30 - 45,
+	        })
+	        let a = [];
+	        for (var i = data.index; i <= this.props.barInLine; i++) {
+	        	a.push(i)
+	        }
+	        console.log(a)
+	        this.props.finshChose(a)
 	}
 	onTouchStartDown(event){
 		this.tempBarBottomH = event.touches[0].pageY
@@ -102,7 +96,16 @@ class ControlBar extends React.Component{
 		    return
 	}
 	onTouchEndDown(){
-
+		let data = this.getLineByH(this.state.barBottom - 20)
+			this.setState({
+	        	barBottom:data.height,
+	        })
+	         let a = [];
+	        for (var i = this.props.barInLine; i <= data.index; i++) {
+	        	a.push(i)
+	        }
+	        console.log(a)
+	        this.props.finshChose(a)
 	}
 	componentDiemounted(){
 
