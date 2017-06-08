@@ -19,3 +19,31 @@ export function getUserToken() {
     }
     return token
 }
+
+// 加载图片数组，加载完成执行回调
+export function LoadImages(imgUrls, callback) {
+    if(typeof imgUrls == "array"){
+        var templen = 0;
+        var len = imgUrls.length;
+        for (var i = 0; i < len; i++) {
+            (function loadimg(url) {
+                var img = new Image();
+                img.src = url;
+                img.onload = function() {
+                    if (this.complete) {
+                        templen++;
+                        if (templen >= len) {
+                            callback();
+                        }
+                    }
+                }
+            })(imgUrls[i])
+        }
+    }else{
+        var img = new Image();
+        img.src = imgUrls;
+        img.onload = function() {
+            callback();
+        }
+    }
+}

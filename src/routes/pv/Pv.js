@@ -18,7 +18,7 @@ import DropToDo from '../../components/DropToDo/DropToDo';
 import FooterNav from '../../components/FooterNav/FooterNav';
 import ControlBar from '../../components/ControlBar/ControlBar';
 import Link from '../../components/Link/Link';
-import { GetQueryString, getUserToken } from '../../commonFunc/';
+import { GetQueryString, getUserToken,LoadImages } from '../../commonFunc/';
 import Loader from '../../components/Loading';
 import history from '../../history';
 import moreImg from './more.png';
@@ -120,6 +120,26 @@ async function deleteLine(pk, index, token) {
         throw new Error('Failed to load the listen.');
     return data;
 }
+async function copyNowLing(pk,index,token){
+    let t = (token) ? token : "";
+    let tmpbody = "";
+    for (var i = 0; i < index.length; i++) {
+        tmpbody += "index[]="+index[i]+"&";
+    }
+    tmpbody = tmpbody.slice(0,-1);
+    const resp = await fetch(config.serverHost + 'PictureMovie/update/' + pk, {
+        method: 'post',
+        headers: {
+            'Authorization': 'Bearer ' + t,
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: tmpbody,
+    })
+    const data = await resp.json();
+    if (!data)
+        throw new Error('Failed to load the listen.');
+    return data;
+}
 async function publishPvs(pk, tempintroduce, token) {
     let t = (token) ? token : "";
     const resp = await fetch(config.serverHost + 'makesong/pushmp3pv/' + pk, {
@@ -177,77 +197,15 @@ class Pv extends React.Component {
         this.uploadContainer = "";
         this._inputElement = "";
         this._inputElementForcss = "";
+        this.transitionLoadImg = this.transitionLoadImg.bind(this)
         this.finshChose = this.finshChose.bind(this)
-        this.handleInputChange = (e) => {
-            this.setState({
-                introduce: e.target.value
-            })
-        }
-        this.handlePublish = () => {
-            // history.push("/play")
-            let c = window.confirm('确定要发布了？')
-            if (!c) {
-                return
-            }
-            return
-            publishPvs(localStorage.getItem("histroyPvPk"), this.state.introduce, this.token).then((e) => {
-                console.log(e)
-                history.push("/play?id=" + localStorage.getItem("histroyPvPk"))
-                try {
-                    localStorage.setItem("histroyPvPk", "")
-                    localStorage.setItem("histroyDom", "")
-                    localStorage.setItem("histroySamplePk", "")
-                } catch ( e ) {
-                    console.log(e)
-                }
-            })
-        }
-        this.handleGoPrevious = () => {
-            history.goBack()
-        }
-        this.imgUploadForcss = () => {
-            readFile(this._inputElementForcss).then((e) => {
-                // console.log(e)
-                this.setState({
-                    showChoseImgBtn: false,
-                })
-                this.uploadContainer.bind({
-                    url: e
-                });
-            }, (e) => {
-                console.log(e)
-            })
-        }
-        this.imgUpload = (e) => {
-            readFile(this._inputElement).then((e) => {
-                // console.log(e)
-                this.setState({
-                    showChoseImgBtn: false,
-                })
-                this.uploadContainer.bind({
-                    url: e
-                });
-            }, (e) => {
-                console.log(e)
-            })
-        }
-        this.openEdit = () => {
-            let tempClipImg = document.querySelector(".cr-image")
-            if (tempClipImg.getAttribute("src") != null && tempClipImg.getAttribute("src") != "") {
-                this.setState({
-                    pvManagerDisplay: "block"
-                })
-            } else {
-                this.setState({
-                    showChoseImgBtn: true,
-                    pvManagerDisplay: "block"
-                })
-                if (this._inputElement != "" && this._inputElement != null) {
-                    this._inputElement.click()
-                }
-            // document.querySelector(".upload").click()
-            }
-        }
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.handlePublish = this.handlePublish.bind(this)
+        this.imgUploadForcss = this.imgUploadForcss.bind(this)
+        this.imgUpload = this.imgUpload.bind(this)
+        this.handleGoPrevious = this.handleGoPrevious.bind(this)
+        this.openEdit = this.openEdit.bind(this)
+        this.handleLineWithBgUpload = this.handleLineWithBgUpload.bind(this)
         this.resetEdit = () => {
             this.setState({
                 pvManagerDisplay: "none"
@@ -265,16 +223,6 @@ class Pv extends React.Component {
         this.handleLineUpload = (e) => {
             this.uploadIndex = e;
             this.openEdit()
-        }
-        this.handleLineWithBgUpload = (e) => {
-            this.uploadIndex = e;
-            // this.openEdit()
-            this.setState({
-                editDisplay: "block",
-                editDisplayUrl: this.state.dom[e].backgroundImage,
-                barInLine:e,
-            })
-            this.handleShowControl()
         }
         this.handleShowControl=()=>{
             this.setState({
@@ -358,7 +306,14 @@ class Pv extends React.Component {
                         let dom = this.state.dom
                         if (e && e.order_index) {
                             dom[e.order_index].backgroundImage = config.serverHost + e.picture + "?" + Math.random()
+                            dom[e.order_index].globalPk = e.pk
                             localStorage.setItem("histroyDom", JSON.stringify(dom))
+                            LoadImages(dom[e.order_index].backgroundImage,()=>{
+                                dom[e.order_index].bgwidth = '100%'
+                                this.setState({
+                                    dom: dom
+                                })
+                            })
                             this.setState({
                                 dom: dom
                             })
@@ -369,13 +324,121 @@ class Pv extends React.Component {
 
         }
     }
-    finshChose (e) {
-        console.log(e)
-        setTimeout(()=>{
-            this.setState({
-                showTool:"none"
+    handleInputChange(e){
+        this.setState({
+            introduce: e.target.value
+        })
+    }
+    handleGoPrevious(){
+            history.goBack()
+        }
+    handlePublish(){
+            // history.push("/play")
+            let c = window.confirm('确定要发布了？')
+            if (!c) {
+                return
+            }
+            return
+            publishPvs(localStorage.getItem("histroyPvPk"), this.state.introduce, this.token).then((e) => {
+                console.log(e)
+                history.push("/play?id=" + localStorage.getItem("histroyPvPk"))
+                try {
+                    localStorage.setItem("histroyPvPk", "")
+                    localStorage.setItem("histroyDom", "")
+                    localStorage.setItem("histroySamplePk", "")
+                } catch ( e ) {
+                    console.log(e)
+                }
             })
-        },300)
+        }
+    imgUploadForcss(){
+            readFile(this._inputElementForcss).then((e) => {
+                // console.log(e)
+                this.setState({
+                    showChoseImgBtn: false,
+                })
+                this.uploadContainer.bind({
+                    url: e
+                });
+            }, (e) => {
+                console.log(e)
+            })
+        }
+    imgUpload(e){
+        readFile(this._inputElement).then((e) => {
+            // console.log(e)
+            this.setState({
+                showChoseImgBtn: false,
+            })
+            this.uploadContainer.bind({
+                url: e
+            });
+        }, (e) => {
+            console.log(e)
+        })
+    }
+    openEdit(){
+            let tempClipImg = document.querySelector(".cr-image")
+            if (tempClipImg.getAttribute("src") != null && tempClipImg.getAttribute("src") != "") {
+                this.setState({
+                    pvManagerDisplay: "block"
+                })
+            } else {
+                this.setState({
+                    showChoseImgBtn: true,
+                    pvManagerDisplay: "block"
+                })
+                if (this._inputElement != "" && this._inputElement != null) {
+                    this._inputElement.click()
+                }
+            // document.querySelector(".upload").click()
+            }
+        }
+    handleLineWithBgUpload(e){
+            this.uploadIndex = e;
+            // this.openEdit()
+            this.setState({
+                editDisplay: "block",
+                editDisplayUrl: this.state.dom[e].backgroundImage,
+                barInLine:e,
+            })
+            this.handleShowControl()
+        }
+    finshChose (e) {
+        if(this.state.dom[this.state.barInLine].globalPk!= undefined){
+            copyNowLing(this.state.dom[this.state.barInLine].globalPk,e,this.token).then((data)=>{
+                let dom = this.state.dom
+                let imagesArr = []
+                for(let dt of data){
+                    imagesArr.push(config.serverHost + dt.picture + "?" + Math.random())
+                    dom[dt.order_index].backgroundImage = config.serverHost + dt.picture
+                    dom[dt.order_index].globalPk = dt.pk
+                    dom[dt.order_index].bgwidth = "100%"
+                }
+                localStorage.setItem("histroyDom", JSON.stringify(dom))
+                this.setState({
+                    dom: dom
+                })
+                LoadImages(imagesArr,()=>{
+                    for(let dt of data){
+                        dom[dt.order_index].bgwidth = "100%"
+                    }
+                    this.setState({
+                        dom: dom
+                    })
+                })
+            })
+            setTimeout(()=>{
+                this.setState({
+                    showTool:"none"
+                })
+            },300)
+        }else{
+            alert("服务器找不到当前所在行图片,请重新上传")
+        }
+    }
+    transitionLoadImg() {
+
     }
     componentDidMount() {
         let Croppie = require('./Croppie')
@@ -441,10 +504,12 @@ class Pv extends React.Component {
                             if (e.picturemovies.length == 0) {
                                 for (var i = 1; i < dom.length; i++) {
                                        dom[i].backgroundImage = ""
+                                       dom[i].bgwidth = "0%"
                                    }   
                             }else{
                                 for (var i = 0; i < e.picturemovies.length; i++) {
                                     dom[e.picturemovies[i].order_index].backgroundImage = config.serverHost + e.picturemovies[i].picture
+                                    dom[e.picturemovies[i].order_index].bgwidth = "100%"
                                 }
                             }
                         }
@@ -500,13 +565,13 @@ class Pv extends React.Component {
                         )
                         startBlock = false
                     }
-                    if (item.backgroundImage != "") {
-                        tempWidth = "100%";
+                    if (item.backgroundImage != "" && item.bgwidth != undefined) {
+                        tempWidth = item.bgwidth;
                     }
                     tpmldom.push(
                         <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground} style={{
                             backgroundImage: "url(" + item.backgroundImage + ")",
-                            width: tempWidth
+                            width: tempWidth,
                         }} onClick={this.handleLineWithBgUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
                     )
 
@@ -532,13 +597,13 @@ class Pv extends React.Component {
                         )
                         startBlock = false
                     }
-                    if (item.backgroundImage != "") {
-                        tempWidth = "100%";
+                    if (item.backgroundImage != "" && item.bgwidth != undefined) {
+                        tempWidth = item.bgwidth;
                     }
                     tprmdom.push(
                         <div key={"input" + no} className={s.singlegroup}><div className={s.pvLineBackground} style={{
                             backgroundImage: "url(" + item.backgroundImage + ")",
-                            width: tempWidth
+                            width: tempWidth,
                         }} onClick={this.handleLineWithBgUpload.bind(this, no)}>{item.data}</div><div className={s.textinput} onClick={this.handleLineUpload.bind(this, no)}>{item.data}</div></div>
                     )
                     break;

@@ -73,7 +73,6 @@ class ControlBar extends React.Component{
 	        for (var i = data.index; i <= this.props.barInLine; i++) {
 	        	a.push(i)
 	        }
-	        console.log(a)
 	        this.props.finshChose(a)
 	}
 	onTouchStartDown(event){
@@ -104,7 +103,6 @@ class ControlBar extends React.Component{
 	        for (var i = this.props.barInLine; i <= data.index; i++) {
 	        	a.push(i)
 	        }
-	        console.log(a)
 	        this.props.finshChose(a)
 	}
 	componentDiemounted(){
