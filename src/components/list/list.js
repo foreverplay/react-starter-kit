@@ -9,9 +9,7 @@ import hotImg from './hots.png';
 import commentsImg from '../../../public/comments.png';
 import playtimesImg from '../../../public/playtimes.png';
 import appletouchiconImg from '../../../public/apple-touch-icon.png';
-import bgtopImg from '../../../public/bgtop.png';
-
-
+import goImg from './go.png';
 
 class List extends React.Component {
     constructor(props) {
@@ -21,58 +19,45 @@ class List extends React.Component {
         // console.log("componentDidUpdate")
         // this.props.finshRender()
     }
+    // <div className={s.iconGroup}>
+    // <div className={s.smallInfoGroup}>
+    // <img src={commentsImg}/>
+    // <span>{value.remarker_count}</span>
+    // </div>
+    // <div className={s.smallInfoGroup}>
+    // <img src={playtimesImg}/>
+    // <span>{value.playtimes}</span>
+    // </div>
+    // </div>
     render() {
         let doms = [];
         if (this.props.type == "hot") {
-            doms.push(<div key="0001" className={s.newIcon}><img src={hotImg}/>最热</div>)
+            doms.push(<div key="0001" className={s.newIcon}><img src={hotImg}/>推荐</div>)
         } else {
             doms.push(<div key="0002" className={s.newIcon}><img src={newImg}/>最新</div>)
         }
         if (typeof this.props.store !== undefined) {
             let no = 0;
-            let tempclass = s.indexmvEven
+            let tempclass = s.indexmv
             for ( let value of this.props.store ) {
-                if (no % 2 == 0) {
-                    tempclass = s.indexmvEven
-
-                } else {
-                    tempclass = s.indexmvOdd
-                }
-                let initUserImg = appletouchiconImg;
-                if (value.myuser.headimg != "" && value.myuser.headimg != null && value.myuser.headimg != undefined) {
-                    initUserImg = config.serverHost + value.myuser.headimg
-                }
-                doms.push(<div key={"newSong" + value.pk} className={tempclass}>
-                        <Link to={"/play?id=" + value.pk}>
+                doms.push(<div key={"newSong" + value.pk + Math.random()} className={tempclass}>
                         <div className={s.mvcover} style={{
-                    backgroundImage: "url(" + config.serverHost + value.cover_cover + ")"
+                    backgroundImage: "url(" + value.cover_cover + ")"
                 }}>
+                        <Link to={"/play?id=" + value.pk}>
+                        <img className={s.go} src={goImg}/>
+                   </Link>
                         <div className={s.userInfoGroup}>
-                        <div className={s.iconGroup}>
-                        <div className={s.smallInfoGroup}>
-                        <img src={commentsImg}/>
-                        <span>{value.remarker_count}</span>
-                        </div>
-                        <div className={s.smallInfoGroup}>
-                        <img src={playtimesImg}/>
-                        <span>{value.playtimes}</span>
-                        </div>
-                        </div>
                         <div className={s.pvname}>{value.cover_name}</div>
-                        <div className={s.user}><span>{value.myuser.realname}</span><div style={{
-                    backgroundImage: "url(" + initUserImg + ")"
-                }}></div></div>
+                        <div className={s.user}><span>{value.myuser.realname}</span></div>
                         </div>
                      </div>
-                   </Link>
                 </div>)
                 no++;
             }
         }
         return (
-            <div className={s.root} style={{
-                backgroundImage: "url(" + bgtopImg + ")"
-            }}>
+            <div className={s.root}>
                 {doms}
             </div>
         );

@@ -13,8 +13,10 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Home.css';
 import Ad from '../../components/Ad/Ad';
 import PvList from '../../components/PvList/Pvlist';
-import Sing from '../../components/Sing/Sing';
 import Nav from '../../components/Nav/Nav';
+
+import bgimg from '../../../public/bgimg.jpg';
+import searchImg from '../../../public/search.png';
 
 class Home extends React.Component {
     constructor(props) {
@@ -25,13 +27,15 @@ class Home extends React.Component {
     render() {
         return (
             <div className={s.root}>
+            <div className={s.bg} style={{backgroundImage:'url('+bgimg+')'}}></div>
               <div className={s.container}>
+                <div className={s.search}>
+                  <span className={s.title}>首页</span>
+                  <img src={searchImg}/>
+                </div>
                <Nav index={0} />
               <Ad></Ad>
               <PvList key="newList" type="hot"></PvList>
-              </div>
-              <div className={s.singEntry}>
-                <Sing/>
               </div>
             </div>
         );

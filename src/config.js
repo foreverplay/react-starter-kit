@@ -15,17 +15,17 @@ if (process.env.BROWSER) {
 
 module.exports = {
     // Node.js app
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3100,
 
-    // serverHost: 'http://publicapp.star-fans.com/',
-    serverHost: 'http://test.star-fans.com:8000/',
+    serverHost: 'http://publicapp.star-fans.com/',
+    // serverHost: 'http://test.star-fans.com:8000/',
     // serverHost: 'http://192.168.1.88:8002/',
     // API Gateway
     api: {
         // API URL to be used in the client-side code
         clientUrl: process.env.API_CLIENT_URL || '',
         // API URL to be used in the server-side code
-        serverUrl: process.env.API_SERVER_URL || `http://localhost:${process.env.PORT || 3000}`,
+        serverUrl: process.env.API_SERVER_URL || `http://localhost:${process.env.PORT || 3100}`,
     },
 
     // Database

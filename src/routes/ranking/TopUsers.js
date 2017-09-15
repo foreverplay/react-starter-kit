@@ -86,7 +86,7 @@ class TopUsers extends React.Component {
                 }}>
                     </div>
                     <div className={s.TopUserImg}  style={{
-                    backgroundImage: "url(" + config.serverHost + this.state.TopPvsData[0].user.headimg + ")"
+                    backgroundImage: "url(" + this.state.TopPvsData[0].user.headimg + ")"
                 }}>
                         <div className={s.TopUserImgbefore} style={{
                     backgroundImage: "url(" + oneImg + ")"
@@ -105,7 +105,7 @@ class TopUsers extends React.Component {
                         color: mvtopArray[tempno].color
                     }}><img src={mvtopArray[tempno].url}/>{tempno}</div>)
                     tempUserImg.push(<div className={s.userImg} key={"userImg" + tempno} style={{
-                        backgroundImage: "url(" + config.serverHost + item.user.headimg + ")",
+                        backgroundImage: "url(" + item.user.headimg + ")",
                         border: "2px solid " + mvtopArray[tempno].color + "",
                     }}>
                         <div className={s.userImgbefore} style={{
@@ -115,7 +115,7 @@ class TopUsers extends React.Component {
                 } else {
                     tempRanking.push(<div className={s.Ranking} key={"ranking" + tempno}>TOP.{tempno}</div>)
                     tempUserImg.push(<div className={s.userImg} key={"userImg" + tempno} style={{
-                        backgroundImage: "url(" + config.serverHost + item.user.headimg + ")"
+                        backgroundImage: "url(" + item.user.headimg + ")"
                     }}>
                         </div>)
                 }

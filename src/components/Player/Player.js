@@ -30,12 +30,12 @@ function customImgArray(cover, imgs) {
     var images = []
     images.push({
         timer: 0,
-        url: config.serverHost + cover
+        url: cover
     })
     for (var i = 0; i < imgs.length; i++) {
         images.push({
             timer: imgs[i].longtime,
-            url: config.serverHost + imgs[i].picture
+            url: imgs[i].picture
         })
     }
     return images

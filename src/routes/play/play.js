@@ -141,12 +141,12 @@ function customImgArray(cover, imgs) {
     var images = []
     images.push({
         timer: 0,
-        url: config.serverHost + cover
+        url: cover
     })
     for (var i = 0; i < imgs.length; i++) {
         images.push({
             timer: imgs[i].longtime,
-            url: config.serverHost + imgs[i].picture
+            url: imgs[i].picture
         })
     }
     return images
@@ -287,15 +287,15 @@ class Play extends React.Component {
             })
             This.timeOut = timerForAudio(1000, () => {
                 getVideoUrl(GetQueryString("id")).then((e) => {
-                    if (e.cover_addr != null && e.cover_addr != "") {
-                        This.state.videoUrl = e.cover_addr
-                        if (e.local_xmlpath != "" && e.local_xmlpath != null && e.local_xmlpath != undefined) {
-                            This.state.videoInfo.cover_xmlpath = config.serverHost + e.local_xmlpath
+                    if (e.data.cover_addr != null && e.data.cover_addr != "") {
+                        This.state.videoUrl = e.data.cover_addr
+                        if (e.data.local_xmlpath != "" && e.data.local_xmlpath != null && e.data.local_xmlpath != undefined) {
+                            This.state.videoInfo.cover_xmlpath = e.data.local_xmlpath
                         } else {
-                            This.state.videoInfo.cover_xmlpath = e.cover_xmlpath
+                            This.state.videoInfo.cover_xmlpath = e.data.cover_xmlpath
                         }
                         // This.state.videoInfo.local_xmlpath = e.local_xmlpath
-                        This.state.videoInfo.cover_addr = e.cover_addr
+                        This.state.videoInfo.cover_addr = e.data.cover_addr
                         This.refs.playLoading.style.display = "none"
                         clearInterval(This.timeOut)
                         This.forceUpdate()
@@ -398,7 +398,7 @@ class Play extends React.Component {
                       <div>制作人&经纪人：</div>
                       <div className={s.headergroup}>
                         <div className={s.headicon} style={{
-                backgroundImage: "url(" + config.serverHost + this.state.videoInfo.myuser.headimg + ")"
+                backgroundImage: "url(" + this.state.videoInfo.myuser.headimg + ")"
             }}></div>
                         <span className={s.playmvmaker}>
                         {this.state.videoInfo.myuser.realname}</span>

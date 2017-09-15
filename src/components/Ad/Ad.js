@@ -56,7 +56,7 @@ class Ad extends React.Component {
                 _html.push(<div onClick={() => {
                     openUrl(v.url)
                 }} className="swiper-slide slider-bgitem" key={"indexad" + i} style={{
-                    backgroundImage: 'url(' + config.serverHost + v.pic + ')'
+                    backgroundImage: 'url(' + v.pic + ')'
                 }}></div>)
             })
         }

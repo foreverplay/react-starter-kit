@@ -25,7 +25,7 @@ class Ad extends React.Component {
     componentDidMount() {
         let gd = localStorage.getItem("_globledata_adurl")
         this.setState({
-            url: "http://" + gd,
+            url: gd,
         })
         console.log(gd)
 

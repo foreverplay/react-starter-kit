@@ -78,11 +78,11 @@ class TopPvs extends React.Component {
         let TopPvDom = [];
         if (this.state.TopPvsData.length != 0) {
             TopPvDom.push(<div key="TopPvOne" className={s.TopPvOne} style={{
-                backgroundImage: "url(" + config.serverHost + this.state.TopPvsData[0].songcover.cover_cover + ")"
+                backgroundImage: "url(" + this.state.TopPvsData[0].songcover.cover_cover + ")"
             }}>
             <div className={s.imgborder}>
                 <div className={s.TopOnePvImg} style={{
-                backgroundImage: "url(" + config.serverHost + this.state.TopPvsData[0].songcover.cover_cover + ")"
+                backgroundImage: "url(" + this.state.TopPvsData[0].songcover.cover_cover + ")"
             }}>
             </div>
             <Link to={"/play?id=" + this.state.TopPvsData[0].pk}><img src={toponeborderImg}/></Link>
@@ -90,7 +90,7 @@ class TopPvs extends React.Component {
             <img src={top1Img} className={s.toponeIcon}/>
             <div className={s.usernameGroup}>
                 <div className={s.headImg} style={{
-                backgroundImage: "url(" + config.serverHost + this.state.TopPvsData[0].songcover.myuser.headimg + ")"
+                backgroundImage: "url(" + this.state.TopPvsData[0].songcover.myuser.headimg + ")"
             }}></div>
                 <div className={s.username}>{this.state.TopPvsData[0].songcover.myuser.realname}</div>
             </div>
@@ -109,7 +109,7 @@ class TopPvs extends React.Component {
                         <div className={s.left}>
                             {tempNavdom}
                             <div className={s.mvimg} style={{
-                    backgroundImage: "url(" + config.serverHost + item.songcover.cover_cover + ")"
+                    backgroundImage: "url(" + item.songcover.cover_cover + ")"
                 }}></div>
                         </div>
                     </Link>
@@ -127,7 +127,7 @@ class TopPvs extends React.Component {
                         </div>
                         <div className={s.user}>
                             <div className={s.userimg} style={{
-                    backgroundImage: "url(" + config.serverHost + item.songcover.myuser.headimg + ")"
+                    backgroundImage: "url(" + item.songcover.myuser.headimg + ")"
                 }}></div>
                             <div className={s.name}>{item.songcover.myuser.realname}</div>
                         </div>

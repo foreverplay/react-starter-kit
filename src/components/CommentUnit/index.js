@@ -64,7 +64,7 @@ class CommentUnit extends React.Component {
             <div className={s.commondmgroup}>
                 <div className={s.titlegroup}>
               <a href="other.html?id=50"><div className={s.left} style={{
-                backgroundImage: "url(" + config.serverHost + PropsInfo.comment_user.headimg + ")"
+                backgroundImage: "url(" + PropsInfo.comment_user.headimg + ")"
             }}></div></a>
               <div className={s.center}><div className={s.username}>{PropsInfo.comment_user.realname}</div><div className={s.pubtime}>{time}</div></div>
               <div className={s.right}><div className={s.likenumber}>{PropsInfo.comment_lovecount}</div>{like}</div>
